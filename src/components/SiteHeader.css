@@ -1,0 +1,294 @@
+.hdr {
+  /* Pill interior height, and the coin that overhangs it. */
+  --bar-h: 2.7rem;
+  --coin: clamp(3.35rem, 5.6vw, 4.1rem);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  /* Top padding clears the coin's overhang. */
+  padding: calc(0.9rem + (var(--coin) - var(--bar-h)) / 2) clamp(0.75rem, 3vw, 2rem)
+    0;
+  pointer-events: none;
+}
+
+.hdr__bar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2.6vw, 2.2rem);
+  max-width: 76rem;
+  min-height: var(--bar-h);
+  margin: 0 auto;
+  padding: 0 0.6rem 0 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.42);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  transition:
+    background 220ms ease,
+    border-color 220ms ease;
+}
+
+.hdr--lifted .hdr__bar {
+  background: rgba(16, 16, 16, 0.82);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/*
+ * The coin. A true circle, larger than the bar, so it overhangs top and bottom.
+ * Negative block margins keep it from stretching the pill, and it sits flush to
+ * the pill's left edge — covering the rounded cap, which is what makes it read
+ * as a seal rather than an icon dropped in a slot.
+ */
+.hdr__badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--coin);
+  height: var(--coin);
+  margin-block: calc((var(--bar-h) - var(--coin)) / 2);
+  margin-left: calc(var(--coin) / -24);
+  color: #fff;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  /* Belt and braces: nothing inside can ever spill past the circle. */
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 6px 18px rgba(0, 0, 0, 0.45);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease;
+}
+
+.hdr__badge:hover,
+.hdr__badge:focus-visible {
+  transform: scale(1.03);
+  border-color: rgba(145, 249, 247, 0.4);
+}
+
+.hdr__symbol {
+  /*
+   * The artwork is portrait (636 x 1024) and bleeds to its own edges, so height
+   * is the governing dimension, not width.
+   *
+   * Sized off --coin with calc rather than a percentage: a percentage height on
+   * a centred grid item has no definite containing block to resolve against, so
+   * it silently falls back to the intrinsic 1024px and the image escapes.
+   */
+  display: block;
+  height: calc(var(--coin) * 0.58);
+  width: auto;
+}
+
+.hdr__lockup {
+  flex: none;
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+}
+
+.hdr__logotype {
+  display: block;
+  height: clamp(0.72rem, 1.15vw, 0.86rem);
+  width: auto;
+}
+
+.hdr__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2.2vw, 1.9rem);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.hdr__links a {
+  position: relative;
+  display: inline-block;
+  padding: 0.2rem 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--ink-dim);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 160ms ease;
+}
+
+.hdr__links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.15rem;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+}
+
+.hdr__links a:hover,
+.hdr__links a:focus-visible {
+  color: var(--ink);
+}
+
+.hdr__links a:hover::after,
+.hdr__links a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.hdr__cta {
+  flex: none;
+  padding: 0.48rem 1.05rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #0d1414;
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--accent);
+  border-radius: 999px;
+  transition:
+    filter 160ms ease,
+    transform 160ms ease;
+}
+
+.hdr__cta:hover,
+.hdr__cta:focus-visible {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────────── */
+
+.hdr__burger {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  padding: 0.4rem 0.55rem;
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.hdr__glyph {
+  position: relative;
+  display: block;
+  width: 1.05rem;
+  height: 0.6rem;
+}
+
+.hdr__glyph i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  transition: transform 200ms ease;
+}
+
+.hdr__glyph i:first-child {
+  top: 0.1rem;
+}
+.hdr__glyph i:last-child {
+  bottom: 0.1rem;
+}
+
+.hdr__glyph.is-open i:first-child {
+  transform: translateY(0.19rem) rotate(45deg);
+}
+.hdr__glyph.is-open i:last-child {
+  transform: translateY(-0.19rem) rotate(-45deg);
+}
+
+.hdr__panel {
+  pointer-events: auto;
+  max-width: 76rem;
+  margin: 0.55rem auto 0;
+  padding: 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(16, 16, 16, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.hdr__panel[hidden] {
+  display: none;
+}
+
+.hdr__panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hdr__panel a {
+  display: block;
+  padding: 0.7rem 0.75rem;
+  font-size: 0.95rem;
+  color: var(--ink-dim);
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.hdr__panel a:hover,
+.hdr__panel a:focus-visible {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.hdr__panel-cta {
+  margin-top: 0.35rem;
+  color: var(--accent) !important;
+  border: 1px solid rgba(145, 249, 247, 0.35);
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .hdr__links,
+  .hdr__cta {
+    display: none;
+  }
+  .hdr__burger {
+    display: flex;
+  }
+  .hdr__lockup {
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 901px) {
+  .hdr__panel {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .hdr__lockup {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hdr__bar,
+  .hdr__badge,
+  .hdr__cta,
+  .hdr__links a::after,
+  .hdr__glyph i {
+    transition: none;
+  }
+}

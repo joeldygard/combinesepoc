@@ -1,0 +1,191 @@
+:root {
+  --bg: #141414;
+  --ink: #f2f5f5;
+  --ink-dim: rgba(242, 245, 245, 0.62);
+  --ink-faint: rgba(242, 245, 245, 0.4);
+  --accent: #91f9f7;
+  --line: rgba(255, 255, 255, 0.09);
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/*
+ * Legibility scrim. The field is bright cyan on near-black, so text needs a
+ * darker pocket under it — but a flat overlay would kill the depth. A radial
+ * gradient darkens the centre where the copy sits and leaves the edges open.
+ */
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      58% 46% at 50% 48%,
+      rgba(12, 12, 12, 0.86) 0%,
+      rgba(14, 14, 14, 0.55) 45%,
+      rgba(20, 20, 20, 0) 78%
+    ),
+    linear-gradient(to bottom, rgba(12, 12, 12, 0.72) 0%, rgba(20, 20, 20, 0) 22%);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 54rem;
+  padding: 7rem clamp(1.25rem, 5vw, 2rem) 4rem;
+  text-align: center;
+  color: var(--ink);
+}
+
+.hero__mark {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+/* Sized by width, since the logotype's 6.24:1 ratio governs its height. */
+.hero__logotype {
+  display: block;
+  width: clamp(15rem, 58vw, 34rem);
+  height: auto;
+  color: var(--ink);
+}
+
+.hero__lede {
+  margin: clamp(1.8rem, 4.5vw, 2.6rem) auto 0;
+  max-width: 30ch;
+  font-size: clamp(1.05rem, 2.4vw, 1.6rem);
+  font-weight: 300;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.72rem 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition:
+    filter 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.btn--solid {
+  color: #0d1414;
+  background: var(--accent);
+}
+
+.btn--solid:hover,
+.btn--solid:focus-visible {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  color: var(--ink);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  border-color: var(--accent);
+  background: rgba(145, 249, 247, 0.08);
+  transform: translateY(-1px);
+}
+
+.hero__areas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem clamp(1.1rem, 3vw, 2.2rem);
+  margin: clamp(2.6rem, 7vw, 4.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(0.62rem, 1vw, 0.7rem);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.hero__areas li {
+  position: relative;
+}
+
+.hero__areas li + li::before {
+  content: '';
+  position: absolute;
+  left: calc(clamp(1.1rem, 3vw, 2.2rem) / -2);
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: rgba(145, 249, 247, 0.45);
+}
+
+.view-switch {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 40;
+  padding: 0.4rem 0.7rem;
+  font: 400 11px/1 var(--sans, system-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.view-switch:hover {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:where(a, button):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}

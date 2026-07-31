@@ -1,0 +1,48 @@
+.ftr {
+  padding-block: var(--space-2xl) var(--space-l);
+}
+
+.ftr__inner {
+  display: grid;
+  gap: var(--space-xl);
+  grid-template-columns: 1fr;
+  padding-bottom: var(--space-2xl);
+}
+
+@media (min-width: 48rem) {
+  .ftr__inner {
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+  }
+}
+
+.ftr__logotype {
+  width: 9rem;
+  height: auto;
+  color: var(--color-text-inverse);
+}
+
+.ftr__address {
+  margin-top: var(--space-m);
+}
+
+.ftr__heading {
+  margin-bottom: var(--space-s);
+  color: var(--color-text-inverse-secondary);
+}
+
+.ftr__group a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  font-size: var(--step-0);
+  color: var(--color-text-inverse);
+}
+
+.ftr__group a:hover {
+  color: var(--color-signal);
+}
+
+.ftr__legal {
+  margin-top: var(--space-m);
+  max-width: 52rem;
+}

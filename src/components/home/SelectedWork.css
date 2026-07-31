@@ -1,0 +1,98 @@
+.work {
+  margin-top: var(--space-2xl);
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+.work__featured {
+  display: grid;
+  gap: var(--space-l);
+}
+
+/* Asymmetric: the featured case runs wide, the pair beneath splits unevenly. */
+@media (min-width: 64rem) {
+  .work__featured {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-xl);
+    align-items: center;
+  }
+}
+
+.work__media {
+  border: 1px solid var(--color-border-subtle);
+  /* Image crop: the one clipped corner. */
+  clip-path: var(--clip-corner);
+  --clip-size: 1.5rem;
+  background: var(--color-ink-soft);
+}
+
+.work__media--small {
+  --clip-size: 1rem;
+}
+
+.work__body {
+  display: grid;
+  gap: var(--space-s);
+  align-content: start;
+}
+
+.work__body--featured {
+  gap: var(--space-m);
+}
+
+.work__result {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-s);
+  flex-wrap: wrap;
+  color: var(--color-action-primary);
+}
+
+.work__result-label {
+  font-weight: var(--weight-body);
+}
+
+.work__client {
+  color: var(--color-text-secondary-on-subtle);
+}
+
+.work__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem var(--space-s);
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+.work__tags li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.work__tags li:not(:last-child)::after {
+  content: '·';
+}
+
+.work__secondary {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 48rem) {
+  .work__secondary {
+    /* Deliberately unequal, so the pair does not read as a card row. */
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: var(--gutter);
+    align-items: start;
+  }
+}
+
+.work__card {
+  display: grid;
+  gap: var(--space-m);
+}
+
+.work__cta {
+  margin-top: var(--space-xl);
+}

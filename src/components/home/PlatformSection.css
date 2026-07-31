@@ -1,0 +1,112 @@
+.plat__body {
+  display: grid;
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+@media (min-width: 64rem) {
+  .plat__body {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+.plat__aside {
+  display: grid;
+  gap: var(--space-m);
+  align-content: start;
+}
+
+.plat__stack-wrap {
+  align-self: start;
+}
+
+.plat__stack-heading {
+  color: var(--color-plum-200);
+}
+
+/* ── The stack ───────────────────────────────────────────────────────────── */
+.plat__stack {
+  display: grid;
+  gap: 0;
+  margin-top: var(--space-m);
+  counter-reset: layer;
+}
+
+.plat__layer {
+  position: relative;
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid var(--color-border-inverse);
+  background: rgba(38, 11, 21, 0.34);
+}
+
+/* Direction indicator between layers. Decorative; the list order carries it. */
+.plat__layer + .plat__layer {
+  margin-top: 1.35rem;
+}
+
+.plat__layer + .plat__layer::before {
+  content: '';
+  position: absolute;
+  top: -1.35rem;
+  left: var(--space-m);
+  width: 1px;
+  height: 1.35rem;
+  background: var(--color-plum-200);
+}
+
+.plat__layer + .plat__layer::after {
+  content: '';
+  position: absolute;
+  top: -0.42rem;
+  left: calc(var(--space-m) - 3px);
+  width: 7px;
+  height: 7px;
+  background: var(--color-plum-200);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Combine's own layers are emphasised; the rest are context. */
+.plat__layer--owned {
+  background: rgba(245, 221, 229, 0.14);
+  border-color: var(--color-signal);
+  /* Image crop: the one clipped corner from the logo geometry. */
+  clip-path: var(--clip-corner);
+  --clip-size: 0.85rem;
+}
+
+.plat__layer-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  flex-wrap: wrap;
+  color: #ffffff;
+}
+
+.plat__layer--owned .plat__layer-label {
+  color: var(--color-signal);
+}
+
+/* State is not colour-only: the owned layers also carry a text badge. */
+.plat__badge {
+  padding: 0.1rem 0.4rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  color: var(--color-plum-900);
+  background: var(--color-signal);
+}
+
+.plat__layer-parts {
+  margin-top: 0.2rem;
+  color: var(--color-text-inverse-secondary);
+}
+
+.plat__trace {
+  max-width: 34rem;
+  color: var(--color-text-inverse-secondary);
+}
+
+.plat__cta {
+  margin-top: var(--space-l);
+}

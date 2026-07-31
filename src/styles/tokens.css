@@ -1,0 +1,115 @@
+/*
+ * Single source of truth for design values. Nothing else in the codebase may
+ * declare a raw colour, spacing scale or type size.
+ */
+:root {
+  /* ── Neutrals ───────────────────────────────────────────────────────────── */
+  --color-ink: #0b0b0d;
+  --color-ink-soft: #18181b;
+  --color-paper: #f5f4f1;
+  --color-surface: #ffffff;
+  --color-graphite: #2c2c31;
+  --color-muted: #73737b;
+  --color-hairline: #d8d7d3;
+
+  /* ── Plum: the brand colour. Fields, actions, metrics, controlled states. ── */
+  --color-plum-950: #260b15;
+  --color-plum-900: #3c1022;
+  --color-plum-800: #57182f;
+  --color-plum-700: #782441;
+  --color-plum-600: #963253;
+  --color-plum-200: #e9b8c8;
+  --color-plum-100: #f5dde5;
+  --color-plum-50: #fbf2f5;
+
+  /* ── Signal: sensing and measurement only. Never the general identity. ──── */
+  --color-signal: #8ceef0;
+
+  /* ── Semantic roles ─────────────────────────────────────────────────────── */
+  --color-text-primary: var(--color-ink);
+  --color-text-secondary: var(--color-muted);
+  --color-text-inverse: #ffffff;
+  --color-surface-default: var(--color-surface);
+  --color-surface-subtle: var(--color-paper);
+  --color-surface-inverse: var(--color-ink);
+  --color-surface-brand: var(--color-plum-700);
+  --color-border-subtle: var(--color-hairline);
+  --color-action-primary: var(--color-plum-700);
+  --color-action-primary-hover: var(--color-plum-800);
+
+  /* On dark fields the muted grey fails AA, so inverse text has its own pair. */
+  --color-text-inverse-secondary: rgba(255, 255, 255, 0.72);
+  --color-border-inverse: rgba(255, 255, 255, 0.16);
+
+  /*
+   * --color-muted on --color-paper measures 4.27:1, just under WCAG AA for body
+   * text. Off-white fields therefore get their own secondary token, two steps
+   * darker on the same cool-grey ramp: 4.53:1 on paper, 4.98:1 on white.
+   */
+  --color-text-secondary-on-subtle: #6f6f77;
+
+  /*
+   * The hero simulation's own two values, tuned by eye against the canvas.
+   * Deliberately distinct from --color-ink / --color-signal: they are baked
+   * into DriftHero as constants for performance. See README.
+   */
+  --hero-field: #141414;
+  --hero-signal: #91f9f7;
+
+  /* ── Type ───────────────────────────────────────────────────────────────── */
+  --font-sans: 'Host Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --weight-display: 680;
+  --weight-section: 620;
+  --weight-card: 580;
+  --weight-body: 400;
+  --weight-nav: 500;
+  --weight-label: 560;
+  --weight-metric: 600;
+
+  --step--1: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --step-1: clamp(1.125rem, 1.06rem + 0.3vw, 1.3125rem);
+  --step-2: clamp(1.375rem, 1.24rem + 0.6vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.5rem + 1.1vw, 2.5rem);
+  --step-4: clamp(2.25rem, 1.8rem + 2vw, 3.5rem);
+  --step-5: clamp(2.75rem, 2rem + 3.4vw, 5rem);
+
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  --content-max: 80rem;
+  --content-wide: 92rem;
+  --text-max: 44rem;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space: clamp(5rem, 10vw, 10rem);
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-s: 0.75rem;
+  --space-m: 1.25rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+
+  --radius-small: 0.25rem;
+  --radius-medium: 0.5rem;
+
+  /*
+   * Logo-derived geometry: the bottom-left corner cut away at 45°, matching the
+   * angled terminals in the Combine letterforms. One clipped edge, reused
+   * sparingly — do not apply it to everything.
+   */
+  --clip-size: 1rem;
+  --clip-corner: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    var(--clip-size) 100%,
+    0 calc(100% - var(--clip-size))
+  );
+
+  --duration-fast: 140ms;
+  --duration-base: 240ms;
+  --duration-slow: 520ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}

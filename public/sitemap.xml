@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Groundwork. Hand-authored for the POC because there is no route generation
+  yet; see README → "Sitemap and RSS" for the generator this should become once
+  cases and articles have real routes.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://combine.se/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url><loc>https://combine.se/capabilities/</loc><priority>0.8</priority></url>
+  <url><loc>https://combine.se/platform/</loc><priority>0.8</priority></url>
+  <url><loc>https://combine.se/work/</loc><priority>0.8</priority></url>
+  <url><loc>https://combine.se/edge/</loc><priority>0.7</priority></url>
+  <url><loc>https://combine.se/about/</loc><priority>0.6</priority></url>
+  <url><loc>https://combine.se/contact/</loc><priority>0.6</priority></url>
+  <url><loc>https://combine.se/work/ocean-data-biodiversity/</loc><priority>0.7</priority></url>
+  <url><loc>https://combine.se/work/wastewater-network-analysis/</loc><priority>0.7</priority></url>
+  <url><loc>https://combine.se/work/acht-maritime-operations/</loc><priority>0.7</priority></url>
+  <url><loc>https://combine.se/edge/billion-sensor-readings-wastewater/</loc><priority>0.6</priority></url>
+  <url><loc>https://combine.se/edge/designing-analysis-for-real-time/</loc><priority>0.6</priority></url>
+  <url><loc>https://combine.se/edge/from-data-to-decisions-at-sea/</loc><priority>0.6</priority></url>
+  <url><loc>https://combine.se/edge/simulation-before-drone-hardware/</loc><priority>0.6</priority></url>
+</urlset>

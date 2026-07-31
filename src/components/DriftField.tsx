@@ -28,8 +28,13 @@ const DEGREE_CAP = 16
 const EPS = 0.004
 /** Speed ceiling, as a multiple of a dot's assigned speed, when the governor is off. */
 const UNGOVERNED_LIMIT = 8
-/** Recently-broken peers remembered per dot. A dot sheds at most maxLinks per hold. */
-const COOL_SLOTS = 6
+/**
+ * Recently-broken peers remembered per dot. A dot can shed at most `maxLinks`
+ * links per hold window, and maxLinks is live up to DEGREE_CAP — so this is
+ * sized for the worst case. Any smaller and refractory entries evict one
+ * another at high maxLinks, letting pairs reconnect early.
+ */
+const COOL_SLOTS = DEGREE_CAP + 2
 
 const nextPow2 = (n: number) => {
   let p = 1
@@ -173,7 +178,52 @@ export default function DriftField(props: DriftFieldProps) {
     let candUy = new Float32Array(0)
     let candD = new Float32Array(0)
     let candCore = new Float32Array(0)
+    /** 1 when the pair already had a table entry when the frame started. */
+    let candExisting = new Uint8Array(0)
     let candCount = 0
+
+    /**
+     * In-range pairs grow with range², so no fixed capacity is safe once the
+     * range dials are opened up. Truncating the scan meant an arbitrary subset
+     * of links went unrefreshed each frame — they decayed, were released, then
+     * hit their reconnect cooldown, which reads as heavy flicker. Grow instead.
+     */
+    const growCandidates = () => {
+      const next = Math.max(1024, candI.length * 2)
+      const gi = new Int32Array(next)
+      gi.set(candI)
+      candI = gi
+      const gj = new Int32Array(next)
+      gj.set(candJ)
+      candJ = gj
+      const gt = new Float32Array(next)
+      gt.set(candTarget)
+      candTarget = gt
+      const gp = new Float32Array(next)
+      gp.set(candPrev)
+      candPrev = gp
+      const ga = new Uint8Array(next)
+      ga.set(candAcc)
+      candAcc = ga
+      const gux = new Float32Array(next)
+      gux.set(candUx)
+      candUx = gux
+      const guy = new Float32Array(next)
+      guy.set(candUy)
+      candUy = guy
+      const gd = new Float32Array(next)
+      gd.set(candD)
+      candD = gd
+      const gc = new Float32Array(next)
+      gc.set(candCore)
+      candCore = gc
+      const gb = new Float32Array(next)
+      gb.set(candBorn)
+      candBorn = gb
+      const ge = new Uint8Array(next)
+      ge.set(candExisting)
+      candExisting = ge
+    }
 
     // Persistent link opacities, in two ping-ponged open-addressed hash tables.
     // Keyed by the ordered pair id, so a link keeps its identity across frames.
@@ -309,6 +359,7 @@ export default function DriftField(props: DriftFieldProps) {
       candD = new Float32Array(candCap)
       candCore = new Float32Array(candCap)
       candBorn = new Float32Array(candCap)
+      candExisting = new Uint8Array(candCap)
 
       // Half-load factor: accepted links peak near total * DEGREE_CAP / 2.
       tabCap = nextPow2(Math.max(64, total * DEGREE_CAP))
@@ -453,7 +504,6 @@ export default function DriftField(props: DriftFieldProps) {
       const formFactor = 1 - 0.3 * clamp01(p.resistance)
       const offX = [1, -1, 0, 1]
       const offY = [0, 1, 1, 1]
-      const cap = candI.length
       candCount = 0
 
       for (let cy = 0; cy < rows; cy++) {
@@ -476,7 +526,7 @@ export default function DriftField(props: DriftFieldProps) {
               }
 
               for (; j !== -1; j = cellNext[j]) {
-                if (candCount >= cap) return
+                if (candCount >= candI.length) growCandidates()
                 const dx = px[j] - xi
                 const dy = py[j] - yi
                 const range = (ri + ranges[plane[j]]) * 0.5
@@ -487,9 +537,27 @@ export default function DriftField(props: DriftFieldProps) {
                 const hi = i < j ? j : i
                 const key = lo * count + hi
                 const slot = findSlot(keyCur, key)
-                const prev = strCur[slot]
-                const established = prev > EPS
-                let born = bornCur[slot]
+                /*
+                 * findSlot returns an EMPTY slot when the key is absent, and
+                 * only keyNxt is cleared between frames — strNxt and bornNxt
+                 * keep whatever a previous occupant left behind. Reading them
+                 * unconditionally made a brand-new pair inherit a stale
+                 * strength (so it counted as "established", skipping both the
+                 * formation hysteresis and the cooldown) and a stale birth time
+                 * (so its hold had often already expired). Check the key.
+                 */
+                const exists = keyCur[slot] === key
+                const prev = exists ? strCur[slot] : 0
+                /*
+                 * Presence in the table IS the link; strength is only how
+                 * visible it is. Defining `established` as `strength > EPS`
+                 * meant a link in its first frames — strength still climbing
+                 * from zero, which at resistance 1 takes several frames to pass
+                 * EPS — was treated as non-existent, re-ran the formation gate,
+                 * and could be released by the sweep inside its hold window.
+                 */
+                const established = exists
+                let born = exists ? bornCur[slot] : simTime
 
                 const d = Math.sqrt(d2)
                 if (!established) {
@@ -509,6 +577,7 @@ export default function DriftField(props: DriftFieldProps) {
                 candTarget[candCount] = target
                 candPrev[candCount] = prev
                 candBorn[candCount] = born
+                candExisting[candCount] = exists ? 1 : 0
                 candAcc[candCount] = 0
                 // Axis points lo -> hi, matching the sign convention below.
                 const inv = d > 1e-3 ? 1 / d : 0
@@ -538,7 +607,7 @@ export default function DriftField(props: DriftFieldProps) {
       // Incumbents claim their slots first, so an established constellation
       // isn't torn apart by a newcomer that happened to be iterated earlier.
       for (let c = 0; c < candCount; c++) {
-        if (candPrev[c] <= EPS) continue
+        if (candExisting[c] === 0) continue
         const i = candI[c]
         const j = candJ[c]
         if (degree[i] >= maxDeg || degree[j] >= maxDeg) continue
@@ -547,7 +616,7 @@ export default function DriftField(props: DriftFieldProps) {
         degree[j]++
       }
       for (let c = 0; c < candCount; c++) {
-        if (candAcc[c] === 1 || candPrev[c] > EPS) continue
+        if (candAcc[c] === 1 || candExisting[c] === 1) continue
         const i = candI[c]
         const j = candJ[c]
         if (degree[i] >= maxDeg || degree[j] >= maxDeg) continue
@@ -579,10 +648,11 @@ export default function DriftField(props: DriftFieldProps) {
         const key = candI[c] * count + candJ[c]
         seenCur[findSlot(keyCur, key)] = 1
         const prev = candPrev[c]
+        const existing = candExisting[c] === 1
         let target = candAcc[c] === 1 ? candTarget[c] : 0
         // Inside the hold window a link may brighten but never dim — not by
         // drifting apart, and not by losing the degree cap.
-        const held = simTime - candBorn[c] < hold
+        const held = existing && simTime - candBorn[c] < hold
         if (held && target < prev) target = prev
         const s =
           prev + (target - prev) * (target > prev ? rise : fall)
@@ -607,7 +677,15 @@ export default function DriftField(props: DriftFieldProps) {
           accY[j] -= fy * dotPullScale[j]
         }
 
-        if (s <= EPS && target === 0) {
+        // In range but it lost the degree cap on its first frame: it never
+        // formed, so it neither breaks nor earns a refractory window. Recording
+        // these as breaks carpet-bombed the cooldown table — thousands per
+        // frame at long range — evicting genuine entries from each dot's few
+        // slots and blocking real pairs at random. That was the flicker.
+        if (!existing && candAcc[c] !== 1) continue
+
+        // A held link is never released, whatever its strength.
+        if (!held && s <= EPS && target === 0) {
           noteCool(candI[c], candJ[c], simTime + cool)
           continue
         }
@@ -624,11 +702,24 @@ export default function DriftField(props: DriftFieldProps) {
       for (let s = 0; s < tabCap; s++) {
         const key = keyCur[s]
         if (key === -1 || seenCur[s] === 1) continue
-        // Held links keep their opacity even once out of range, so a pair that
-        // drifts apart early still reads as connected for the full window.
         const born = bornCur[s]
-        const v =
-          simTime - born < hold ? strCur[s] : strCur[s] * (1 - fall)
+        /*
+         * Held links keep their opacity even once out of range, so a pair that
+         * drifts apart early still reads as connected for the full window — and
+         * critically, they are carried over WITHOUT the EPS release test. That
+         * test used to fire on a link's second frame, while its strength was
+         * still below EPS on the way up, killing it inside its hold.
+         */
+        if (simTime - born < hold) {
+          if (inserted >= insertCap) break
+          const heldSlot = findSlot(keyNxt, key)
+          keyNxt[heldSlot] = key
+          strNxt[heldSlot] = strCur[s]
+          bornNxt[heldSlot] = born
+          inserted++
+          continue
+        }
+        const v = strCur[s] * (1 - fall)
         if (v <= EPS) {
           const i = (key / count) | 0
           noteCool(i, key - i * count, simTime + cool)

@@ -1,0 +1,33 @@
+.lab-toggle {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 60;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(20, 20, 20, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lab-toggle:hover {
+  color: #fff;
+}
+
+.lab {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+}
+
+.lab__canvas {
+  position: absolute;
+  inset: 0;
+}

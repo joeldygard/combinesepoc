@@ -1,0 +1,46 @@
+.sec-intro {
+  display: grid;
+  gap: var(--space-m);
+}
+
+.sec-intro--start {
+  max-width: 52rem;
+}
+
+/* Offset heading: pulled off the left alignment line on wide viewports. */
+@media (min-width: 64rem) {
+  .sec-intro--offset {
+    max-width: 60rem;
+    padding-inline-start: calc(100% / 12 * 2);
+  }
+}
+
+.sec-intro__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  color: var(--color-text-secondary);
+}
+
+.field-inverse .sec-intro__eyebrow,
+.field-brand .sec-intro__eyebrow {
+  color: var(--color-text-inverse-secondary);
+}
+
+/* Section marker: the clipped logo geometry, used as a small wedge. */
+.sec-intro__marker {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: none;
+  background: var(--color-action-primary);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 45% 100%, 0 45%);
+}
+
+.field-inverse .sec-intro__marker,
+.field-brand .sec-intro__marker {
+  background: var(--color-signal);
+}
+
+.sec-intro__lede {
+  max-width: 40rem;
+}

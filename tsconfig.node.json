@@ -6,8 +6,11 @@
     "types": ["node"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "module": "nodenext",
+    /* Bundler mode. Vite transpiles this config with esbuild using bundler-style
+       resolution, so the typecheck must match — `nodenext` would demand file
+       extensions that the actual loader does not. */
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",

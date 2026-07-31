@@ -9,29 +9,29 @@ import type { CSSProperties } from 'react'
    loop), and links live in fixed-degree adjacency slots instead of a hash table.
 
    Baked settings — edit DriftField + DriftControls if you want to tune by hand:
-     density 26 · minRadius 0.7 · maxSpeed 12 · speed 1.35 · minAlpha 0.33
-     wander 0.16 · dotGlow 0.92 · linkWidth 0.29 · linkAlpha 0.45
-     linkGlow 0.7 · maxLinks 3 · resistance 1 · pull 24 · core 0.18
-     color #91f9f7 on #141414
+     density 32 · minRadius 0.7 · maxSpeed 12 · speed 1.6 · minAlpha 0.33
+     wander 0.16 · dotGlow 0 · range 90–180 · linkWidth 0.61
+     linkAlpha 0.8 · linkGlow 0 · maxLinks 6 · resistance 1 · pull 14
+     core 0.18 · hold 3s · cooldown 3s · color #91f9f7 on #141414
    ──────────────────────────────────────────────────────────────────────────── */
 
 const PLANES = 6
-const DENSITY = 26
+const DENSITY = 32
 const R_NEAR = 2.6
 const R_FAR = 0.7
 const V_NEAR = 12
 const V_FAR = 1.5
-const SPEED = 1.35
+const SPEED = 1.6
 const A_NEAR = 1
 const A_FAR = 0.33
 const WANDER = 0.16
-const DOT_GLOW = 0.92
-const RANGE_NEAR = 130
-const RANGE_FAR = 55
-const LINK_WIDTH = 0.29
-const LINK_ALPHA = 0.45
-const LINK_GLOW = 0.7
-const MAX_LINKS = 3
+const DOT_GLOW = 0
+const RANGE_NEAR = 180
+const RANGE_FAR = 90
+const LINK_WIDTH = 0.61
+const LINK_ALPHA = 0.8
+const LINK_GLOW = 0
+const MAX_LINKS = 6
 const RESISTANCE = 1
 /**
  * Molecular soup. A link tugs both endpoints along its axis, weighted by the
@@ -43,7 +43,7 @@ const RESISTANCE = 1
  * ~0.45x and far dots overshoot to ~1.34x, which destroys the size↔speed depth
  * cue the whole effect rests on.
  */
-const PULL = 24
+const PULL = 14
 /**
  * Short-range core, as a fraction of a pair's link range. Beyond ~1.6x this the
  * force is pure attraction; inside it eases through zero and turns repulsive.
@@ -63,10 +63,14 @@ const CORE = 0.18
  * cycle, which is what actually kills twinkling. Opacity easing alone only
  * smooths each transition; it does nothing about their frequency.
  */
-const HOLD = 1
-const COOLDOWN = 1
-/** Recently-broken peers remembered per dot. A dot can shed at most MAX_LINKS per HOLD. */
-const COOL_SLOTS = 4
+const HOLD = 3
+const COOLDOWN = 3
+/**
+ * Recently-broken peers remembered per dot. A dot can shed at most MAX_LINKS
+ * links per HOLD window, so this must be >= MAX_LINKS or the refractory entries
+ * evict each other and pairs reconnect early, breaking the cooldown guarantee.
+ */
+const COOL_SLOTS = MAX_LINKS + 2
 const FG = '#91f9f7'
 const BG = '#141414'
 
@@ -720,7 +724,7 @@ export default function DriftHero({ className, style }: DriftHeroProps) {
       ctx.fillRect(0, 0, width, height)
       ctx.strokeStyle = FG
 
-      if (TIERS[tier].halo) {
+      if (LINK_GLOW > 0 && TIERS[tier].halo) {
         // Bloom: three wide, faint strokes over contiguous alpha spans.
         ctx.lineWidth = HALO_WIDTH
         for (let g = 0; g < HALO_GROUPS; g++) {

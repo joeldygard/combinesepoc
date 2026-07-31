@@ -7,7 +7,7 @@ export const DRIFT_DEFAULTS = {
   /** Number of discrete depth planes. More = smoother depth, slightly more cost. */
   layers: 6,
   /** Dots per 100 000 css px² (scales with viewport so density feels constant). */
-  density: 26,
+  density: 32,
   /** Radius in css px of the farthest / nearest dots. */
   minRadius: 0.7,
   maxRadius: 2.6,
@@ -15,28 +15,28 @@ export const DRIFT_DEFAULTS = {
   minSpeed: 1.5,
   maxSpeed: 12,
   /** Global multiplier over the above. Live — never rebuilds the field. */
-  speed: 1.35,
+  speed: 1.6,
   /** Opacity of the farthest / nearest dots. */
   minAlpha: 0.33,
   maxAlpha: 1,
   /** How much each dot's heading curves, in radians per second. */
   wander: 0.16,
   /** Soft bloom around each dot, 0 = crisp. Baked into the sprite. */
-  dotGlow: 0.92,
+  dotGlow: 0,
 
   /** Draw constellation lines between nearby dots. */
   connect: true,
   /** Link distance in css px for the farthest / nearest dots. */
-  minRange: 55,
-  maxRange: 130,
+  minRange: 90,
+  maxRange: 180,
   /** Line width as a fraction of the pair's mean dot radius. Keep < 1. */
-  linkWidth: 0.29,
+  linkWidth: 0.61,
   /** Overall opacity multiplier for links. */
-  linkAlpha: 0.45,
+  linkAlpha: 0.8,
   /** Soft bloom around each link, 0 = crisp. */
-  linkGlow: 0.7,
+  linkGlow: 0,
   /** Soft cap on links per dot — keeps dense clusters from turning into hairballs. */
-  maxLinks: 3,
+  maxLinks: 6,
   /**
    * How stubbornly a link holds its state, 0..1. Drives both a time constant on
    * every link's opacity and a hysteresis gap between forming and breaking, so
@@ -50,7 +50,7 @@ export const DRIFT_DEFAULTS = {
      original read-only links.                                              */
 
   /** Peak steering acceleration in css px/s², applied to a near-plane dot. */
-  pull: 24,
+  pull: 14,
   /**
    * Short-range floor, as a fraction of a pair's link range. Beyond ~1.6x this
    * the force is pure attraction; inside it eases through zero and turns
@@ -71,9 +71,9 @@ export const DRIFT_DEFAULTS = {
      may transition at all, which is what actually stops twinkling.           */
 
   /** Once formed, a link may not dim or be released for this long (ms). */
-  holdMs: 1000,
+  holdMs: 3000,
   /** Once broken, that exact pair may not reconnect for this long (ms). */
-  cooldownMs: 1000,
+  cooldownMs: 3000,
 
   color: '#91f9f7',
   background: '#141414',

@@ -1,0 +1,93 @@
+.standin {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.standin__plate {
+  fill: var(--color-ink-soft);
+}
+
+.standin__band {
+  fill: var(--color-signal);
+}
+
+.standin__timeline {
+  fill: rgba(0, 0, 0, 0.45);
+}
+
+.standin__det rect {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__marker {
+  fill: var(--color-plum-200);
+}
+
+.standin__tag {
+  fill: rgba(255, 255, 255, 0.85);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.06em;
+}
+
+.standin__tag--alert {
+  fill: var(--color-plum-200);
+  font-weight: 500;
+}
+
+.standin__axis,
+.standin__tick {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__playhead {
+  fill: var(--color-signal);
+}
+
+.standin__pipe {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__pipe--branch {
+  stroke-dasharray: 4 3;
+}
+
+.standin__pump,
+.standin__valve,
+.standin__tank,
+.standin__panel,
+.standin__hull {
+  fill: rgba(255, 255, 255, 0.06);
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__tank-fill {
+  fill: var(--color-signal);
+  opacity: 0.35;
+}
+
+.standin__overflow path {
+  fill: var(--color-plum-600);
+  stroke: var(--color-plum-200);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__trace path {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}

@@ -1,0 +1,113 @@
+.exp {
+  display: grid;
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+}
+
+@media (min-width: 64rem) {
+  .exp {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--gutter);
+    align-items: start;
+  }
+}
+
+/* ── Company facts. Verifiable, and deliberately not dressed as trophies. ── */
+.exp__facts {
+  display: grid;
+  gap: var(--space-m);
+  margin: 0;
+  align-content: start;
+}
+
+.exp__fact {
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.exp__fact-label {
+  order: 2;
+}
+
+.exp__fact-value {
+  margin: 0 0 0.1rem;
+  font-size: var(--step-2);
+  font-weight: var(--weight-metric);
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── The three disciplines, each linking out ─────────────────────────────── */
+.exp__disciplines {
+  display: grid;
+  gap: 0;
+}
+
+@media (min-width: 48rem) {
+  .exp__disciplines {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gutter);
+  }
+}
+
+.exp__discipline {
+  display: grid;
+  gap: var(--space-xs);
+  align-content: start;
+  padding-block: var(--space-m);
+  border-top: 2px solid var(--color-text-primary);
+}
+
+@media (max-width: 47.9375rem) {
+  .exp__discipline {
+    border-top-width: 1px;
+  }
+
+  .exp__discipline:first-child {
+    border-top-width: 2px;
+  }
+}
+
+.exp__discipline a {
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-hairline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+}
+
+.exp__discipline a:hover {
+  text-decoration-color: var(--color-action-primary);
+}
+
+/* ── Pointers into the rest of the site ──────────────────────────────────── */
+.exp__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s) var(--space-xl);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.exp__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  font-weight: var(--weight-nav);
+  color: var(--color-action-primary);
+}
+
+.exp__links a::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  background: currentColor;
+  /* The logo corner, reused as the outbound marker. */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 45% 100%, 0 45%);
+}
+
+.exp__links a:hover {
+  color: var(--color-action-primary-hover);
+}

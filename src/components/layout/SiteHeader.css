@@ -1,0 +1,296 @@
+.hdr {
+  /* Pill interior height, and the coin that overhangs it when detached. */
+  --bar-h: 3rem;
+  --coin: 3.9rem;
+
+  /*
+   * Fixed, not sticky. A sticky element stays in normal flow and reserves its
+   * own height — which put a 4.5rem band of white body background above the
+   * hero, since the attached header is transparent. Fixed takes it out of flow
+   * so the hero runs to the top of the viewport and the header overlays it.
+   */
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 50;
+  /* Room for the coin's overhang in the detached state. */
+  padding-block: 0;
+  border-bottom: 1px solid transparent;
+  /* Attached over the hero, which is a dark field. */
+  color: var(--color-text-inverse);
+  /*
+   * Detached, the bar is narrower than the viewport; without this the
+   * transparent gutters either side would swallow clicks on the content behind.
+   */
+  pointer-events: none;
+  transition:
+    padding-block var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    color var(--duration-base) var(--ease-out);
+}
+
+.hdr__inner {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-l);
+  min-height: 4.5rem;
+  transition:
+    max-width var(--duration-base) var(--ease-out),
+    min-height var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    border-radius var(--duration-base) var(--ease-out),
+    padding var(--duration-base) var(--ease-out);
+  border: 1px solid transparent;
+}
+
+/* ── Detached: a floating pill over the light fields below the hero ──────── */
+.hdr--detached {
+  padding-block: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.hdr--detached .hdr__inner {
+  max-width: 76rem;
+  min-height: var(--bar-h);
+  padding-inline: 0 0.6rem;
+  border-color: var(--color-border-subtle);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  box-shadow: 0 10px 30px rgba(11, 11, 13, 0.08);
+}
+
+.hdr__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex: none;
+  color: inherit;
+}
+
+/*
+ * Attached: no coin, just the white symbol. Detached: a true circle, larger
+ * than the bar, overhanging top and bottom. Negative block margins keep it from
+ * stretching the pill; the small negative inline margin lets it cover the
+ * rounded cap so it reads as a struck seal rather than an icon in a slot.
+ */
+.hdr__coin {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.7rem;
+  height: 1.7rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  overflow: hidden;
+  transition:
+    width var(--duration-base) var(--ease-out),
+    height var(--duration-base) var(--ease-out),
+    margin var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.hdr--detached .hdr__coin {
+  width: var(--coin);
+  height: var(--coin);
+  margin-block: calc((var(--bar-h) - var(--coin)) / 2);
+  margin-inline-start: calc(var(--coin) / -24);
+  background: var(--color-ink);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 6px 18px rgba(11, 11, 13, 0.35);
+}
+
+/*
+ * Sized with calc, never a percentage: a percentage height on a centred grid
+ * item has no definite containing block and silently falls back to the image's
+ * intrinsic 1024px.
+ */
+.hdr__symbol {
+  display: block;
+  height: 1.6rem;
+  width: auto;
+  transition: height var(--duration-base) var(--ease-out);
+}
+
+.hdr--detached .hdr__symbol {
+  height: calc(var(--coin) * 0.58);
+}
+
+.hdr__logotype {
+  height: 0.8rem;
+  width: auto;
+}
+
+.hdr__nav {
+  margin-inline-start: auto;
+}
+
+.hdr__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 2rem);
+}
+
+.hdr__links a {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.85rem;
+  font-size: var(--step--1);
+  font-weight: var(--weight-nav);
+}
+
+/* Active/hover indicator uses the clipped geometry, not an underline sweep. */
+.hdr__links a::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.4rem;
+  height: 2px;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 4px 100%);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.hdr__links a:hover::after,
+.hdr__links a:focus-visible::after {
+  opacity: 1;
+}
+
+.hdr__cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: 1.1rem;
+  font-size: var(--step--1);
+  font-weight: var(--weight-nav);
+  border: 1px solid currentColor;
+  border-radius: 0;
+  clip-path: var(--clip-corner);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.hdr__cta:hover {
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+.hdr--detached .hdr__cta:hover {
+  color: var(--color-text-inverse);
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+}
+
+.hdr__toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+  min-height: 2.75rem;
+  padding-inline: 0.4rem;
+  font-size: var(--step--1);
+  font-weight: var(--weight-nav);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.hdr__glyph {
+  position: relative;
+  display: block;
+  width: 1.1rem;
+  height: 0.65rem;
+}
+
+.hdr__glyph i {
+  position: absolute;
+  inset-inline: 0;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.hdr__glyph i:first-child {
+  top: 0.1rem;
+}
+
+.hdr__glyph i:last-child {
+  bottom: 0.1rem;
+}
+
+.hdr__glyph.is-open i:first-child {
+  transform: translateY(0.2rem) rotate(45deg);
+}
+
+.hdr__glyph.is-open i:last-child {
+  transform: translateY(-0.2rem) rotate(-45deg);
+}
+
+.hdr__panel {
+  pointer-events: auto;
+  color: var(--color-text-primary);
+  background: var(--color-surface-default);
+  border-top: 1px solid var(--color-border-subtle);
+  padding-block: var(--space-xs) var(--space-m);
+}
+
+.hdr--detached .hdr__panel {
+  margin-top: 0.6rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-medium);
+}
+
+.hdr__panel[hidden] {
+  display: none;
+}
+
+.hdr__panel a {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-block: 0.6rem;
+  font-size: var(--step-1);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.hdr__panel-cta {
+  margin-top: var(--space-s);
+  color: var(--color-action-primary);
+  font-weight: var(--weight-nav);
+  border-bottom: 0 !important;
+}
+
+@media (max-width: 60rem) {
+  .hdr__nav,
+  .hdr__cta {
+    display: none;
+  }
+
+  .hdr__toggle {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 60.0625rem) {
+  .hdr__panel {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hdr,
+  .hdr__inner,
+  .hdr__coin,
+  .hdr__symbol {
+    transition: none;
+  }
+}

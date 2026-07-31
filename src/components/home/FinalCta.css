@@ -1,0 +1,62 @@
+.fcta {
+  position: relative;
+  overflow: hidden;
+}
+
+.fcta__motif {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.42;
+  /* Fades out over the copy so the text keeps a quiet zone. */
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 62%);
+}
+
+.fcta__motif svg {
+  width: 100%;
+  height: 100%;
+}
+
+.fcta__links path {
+  fill: none;
+  stroke: var(--hero-signal);
+  stroke-width: 1;
+  opacity: 0.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.fcta__nodes circle {
+  fill: var(--hero-signal);
+}
+
+.fcta__inner {
+  position: relative;
+  display: grid;
+  gap: var(--space-m);
+  justify-items: start;
+  max-width: 58rem;
+}
+
+.fcta__eyebrow {
+  color: var(--color-signal);
+}
+
+.fcta__headline {
+  max-width: 44rem;
+}
+
+.fcta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-m);
+  margin-top: var(--space-s);
+}
+
+.fcta__email {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--color-signal);
+  border-bottom: 1px solid currentColor;
+}

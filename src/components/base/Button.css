@@ -1,0 +1,76 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 44px minimum target, from the accessibility requirements. */
+  min-height: 2.75rem;
+  padding: 0.6rem 1.35rem;
+  font-size: var(--step-0);
+  font-weight: var(--weight-nav);
+  letter-spacing: -0.005em;
+  border: 1px solid transparent;
+  border-radius: var(--radius-small);
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+/* The single logo-derived clipped edge. Primary actions only. */
+.btn--primary {
+  color: var(--color-text-inverse);
+  background: var(--color-action-primary);
+  border-radius: 0;
+  clip-path: var(--clip-corner);
+}
+
+.btn--primary:hover {
+  background: var(--color-action-primary-hover);
+}
+
+.btn--secondary {
+  color: var(--color-text-primary);
+  border-color: var(--color-border-subtle);
+  background: transparent;
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-text-primary);
+}
+
+.btn--quiet {
+  padding-inline: 0;
+  color: var(--color-action-primary);
+  background: none;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  min-height: 2.75rem;
+}
+
+.btn--quiet:hover {
+  color: var(--color-action-primary-hover);
+}
+
+.btn--on-dark.btn--secondary {
+  color: var(--color-text-inverse);
+  border-color: var(--color-border-inverse);
+}
+
+.btn--on-dark.btn--secondary:hover {
+  border-color: var(--color-text-inverse);
+}
+
+/* Plum on black fails contrast and is forbidden, so dark fields use paper. */
+.btn--on-dark.btn--primary {
+  color: var(--color-ink);
+  background: var(--color-paper);
+}
+
+.btn--on-dark.btn--primary:hover {
+  background: var(--color-surface);
+}
+
+.btn--on-dark.btn--quiet {
+  color: var(--color-signal);
+}

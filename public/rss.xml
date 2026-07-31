@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Groundwork, matching src/content/articles.ts. Regenerate from the content
+  layer once Edge has real routes; see README → "Sitemap and RSS".
+-->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Combine Edge</title>
+    <link>https://combine.se/edge/</link>
+    <description>Engineering articles, project findings and practical methods from control systems, data science, embedded software and deployed AI.</description>
+    <language>en-gb</language>
+    <atom:link href="https://combine.se/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>What a billion sensor readings reveal about wastewater systems</title>
+      <link>https://combine.se/edge/billion-sensor-readings-wastewater/</link>
+      <guid isPermaLink="true">https://combine.se/edge/billion-sensor-readings-wastewater/</guid>
+      <category>AI &amp; Data Science</category>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 GMT</pubDate>
+      <description>What more than a billion wastewater sensor readings reveal about which measurements can carry an operational decision.</description>
+    </item>
+    <item>
+      <title>Designing AI analysis for eventual real-time operation</title>
+      <link>https://combine.se/edge/designing-analysis-for-real-time/</link>
+      <guid isPermaLink="true">https://combine.se/edge/designing-analysis-for-real-time/</guid>
+      <category>AI &amp; Data Science</category>
+      <pubDate>Tue, 24 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Designing data analysis so it survives latency, gaps and drift once it has to run against an operating system.</description>
+    </item>
+    <item>
+      <title>From data to decisions at sea</title>
+      <link>https://combine.se/edge/from-data-to-decisions-at-sea/</link>
+      <guid isPermaLink="true">https://combine.se/edge/from-data-to-decisions-at-sea/</guid>
+      <category>AI &amp; Data Science</category>
+      <pubDate>Wed, 11 Mar 2026 00:00:00 GMT</pubDate>
+      <description>Connecting loading plans, pump logs and voyage reports into a model that can support decisions during cargo operations.</description>
+    </item>
+    <item>
+      <title>Why simulation should come before drone hardware</title>
+      <link>https://combine.se/edge/simulation-before-drone-hardware/</link>
+      <guid isPermaLink="true">https://combine.se/edge/simulation-before-drone-hardware/</guid>
+      <category>Control Systems</category>
+      <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
+      <description>Why modelling the mission and the control problem should precede any drone hardware purchase.</description>
+    </item>
+  </channel>
+</rss>

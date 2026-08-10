@@ -49,10 +49,13 @@ export default function FinalCta() {
           <Button href={finalCta.primaryCta.href} variant="primary" onDark>
             {finalCta.primaryCta.label}
           </Button>
-          <a className="fcta__email u-mono" href={`mailto:${finalCta.secondary}`}>
-            {finalCta.secondary}
-          </a>
+          <Button href={finalCta.secondaryCta.href} variant="quiet" onDark>
+            {finalCta.secondaryCta.label}
+          </Button>
         </div>
+        <a className="fcta__email u-mono" href={`mailto:${finalCta.email}`}>
+          {finalCta.email}
+        </a>
       </div>
     </section>
   )

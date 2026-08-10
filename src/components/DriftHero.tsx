@@ -72,7 +72,7 @@ const COOLDOWN = 3
  */
 const COOL_SLOTS = MAX_LINKS + 2
 const FG = '#91f9f7'
-const BG = '#141414'
+const BG = '#000000'
 
 /** Opacity time constant, and the hysteresis gap between forming and breaking. */
 const TAU = 0.015 * Math.pow(60, RESISTANCE)

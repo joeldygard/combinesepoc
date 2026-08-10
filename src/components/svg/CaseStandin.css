@@ -91,3 +91,48 @@
   stroke-width: 1.25;
   vector-effect: non-scaling-stroke;
 }
+
+.standin__rail,
+.standin__sleeper,
+.standin__vehicle path,
+.standin__vehicle rect,
+.standin__vehicle circle,
+.standin__report rect,
+.standin__report path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__sleeper {
+  opacity: 0.55;
+}
+
+.standin__vehicle path:first-child {
+  fill: rgba(255, 255, 255, 0.06);
+}
+
+.standin__scan path {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__scan circle {
+  fill: var(--color-signal);
+}
+
+.standin__measure-trace {
+  fill: none;
+  stroke: var(--color-signal);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.standin__report rect:last-of-type {
+  fill: var(--color-plum-600);
+  stroke: var(--color-plum-200);
+}

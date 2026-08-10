@@ -114,6 +114,62 @@ export default function CaseStandin({ image }: { image: ImageRef }) {
     )
   }
 
+  if (image.standin === 'rail-measurement') {
+    return (
+      <svg {...common} viewBox="0 0 320 200">
+        <title id={titleId}>Loaded track geometry measurement</title>
+        <desc id={descId}>{image.intent}</desc>
+        <rect className="standin__plate" x="0" y="0" width="320" height="200" />
+
+        {/* Rails and sleepers converge toward the measurement vehicle. */}
+        <path className="standin__rail" d="M24 190L126 96M296 190L194 96" />
+        {[0, 1, 2, 3, 4, 5].map((i) => {
+          const y = 112 + i * 14
+          const inset = 108 - i * 17
+          return (
+            <path
+              className="standin__sleeper"
+              key={i}
+              d={`M${inset} ${y}H${320 - inset}`}
+            />
+          )
+        })}
+
+        {/* Track-bound machine and its sensor bar. */}
+        <g className="standin__vehicle">
+          <path d="M118 48h84l16 44H102z" />
+          <rect x="126" y="57" width="28" height="18" />
+          <rect x="164" y="57" width="26" height="18" />
+          <circle cx="122" cy="96" r="7" />
+          <circle cx="198" cy="96" r="7" />
+          <path d="M106 106h108" />
+        </g>
+
+        {/* Measured points and live geometry trace. */}
+        <g className="standin__scan">
+          <path d="M126 106l-18 35M160 106v46M194 106l18 35" />
+          <circle cx="108" cy="141" r="3" />
+          <circle cx="160" cy="152" r="3" />
+          <circle cx="212" cy="141" r="3" />
+        </g>
+        <path
+          className="standin__measure-trace"
+          d="M20 31h22l8 -7 10 15 12 -10 13 2h17"
+        />
+        <text className="standin__tag" x="20" y="18">
+          TRACK GEOMETRY · LIVE
+        </text>
+
+        {/* Compact field report output. */}
+        <g className="standin__report">
+          <rect x="232" y="18" width="70" height="54" />
+          <path d="M240 31h38M240 41h54M240 51h44M240 61h50" />
+          <rect x="284" y="26" width="10" height="8" />
+        </g>
+      </svg>
+    )
+  }
+
   return (
     <svg {...common} viewBox="0 0 320 200">
       <title id={titleId}>Vessel cargo cross-section</title>

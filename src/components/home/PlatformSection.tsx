@@ -5,16 +5,13 @@ import { useEnterOnce } from '../../lib/motion'
 import './PlatformSection.css'
 
 /**
- * The delivery platform, presented as two named layers inside a stack that runs
- * from operational data to the customer's application.
- *
- * The stack is semantic HTML — an ordered list — rather than an SVG. The layers
- * are text with a direction, so a list reflows on narrow viewports, scales with
- * the user's font size and reads correctly to a screen reader, none of which is
- * true of text inside a fixed viewBox.
+ * The reusable delivery foundations. Each layer has a concrete responsibility;
+ * the adjacent bespoke lane makes clear that the platform accelerates custom
+ * engineering rather than replacing it.
  */
 export default function PlatformSection() {
   const { ref, shown } = useEnterOnce<HTMLDivElement>()
+
   return (
     <section
       className="section field-brand plat"
@@ -30,37 +27,42 @@ export default function PlatformSection() {
         />
 
         <div ref={ref} className={`plat__body enter${shown ? ' is-in' : ''}`}>
-          <div className="plat__stack-wrap">
-            <h3 className="u-eyebrow plat__stack-heading" id="plat-stack">
-              From data to application
-            </h3>
-            <ol className="plat__stack" aria-labelledby="plat-stack">
-              {platform.stack.map((layer) => (
-                <li
-                  className={`plat__layer${layer.owned ? ' plat__layer--owned' : ''}`}
-                  key={layer.id}
-                >
-                  <p className="u-mono plat__layer-label">
-                    {layer.label}
-                    {layer.owned && (
-                      <span className="plat__badge">Combine</span>
-                    )}
-                  </p>
-                  <p className="u-small plat__layer-parts">
-                    {layer.parts.join(' · ')}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <ol className="plat__foundations">
+            {platform.foundations.map((foundation) => (
+              <li className="plat__foundation" key={foundation.id}>
+                <div className="plat__foundation-head">
+                  <p className="u-mono plat__number">{foundation.index}</p>
+                  <p className="u-eyebrow plat__role">{foundation.role}</p>
+                </div>
+                <h3 className="u-h3">{foundation.title}</h3>
+                <p className="u-body u-secondary">{foundation.detail}</p>
+                <ul className="u-mono plat__parts" aria-label={`${foundation.title} includes`}>
+                  {foundation.parts.map((part) => (
+                    <li key={part}>{part}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
 
-          <div className="plat__aside">
-            <p className="u-lede">{platform.closing}</p>
-            <p className="u-small plat__trace">{platform.traceability}</p>
-          </div>
+          <aside className="plat__specific" aria-labelledby="specific-heading">
+            <p className="u-eyebrow plat__specific-eyebrow">
+              {platform.specific.eyebrow}
+            </p>
+            <h3 className="u-h3" id="specific-heading">
+              {platform.specific.heading}
+            </h3>
+            <p className="u-body u-secondary">{platform.specific.detail}</p>
+            <ul className="u-mono plat__specific-parts">
+              {platform.specific.parts.map((part) => (
+                <li key={part}>{part}</li>
+              ))}
+            </ul>
+          </aside>
         </div>
 
-        <div className="plat__cta">
+        <div className="plat__foot">
+          <p className="u-small plat__trace">{platform.traceability}</p>
           <Button href={platform.cta.href} variant="primary" onDark>
             {platform.cta.label}
           </Button>

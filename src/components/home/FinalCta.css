@@ -56,7 +56,7 @@
 .fcta__email {
   display: inline-flex;
   align-items: center;
-  min-height: 2.75rem;
-  color: var(--color-signal);
-  border-bottom: 1px solid currentColor;
+  min-height: 2rem;
+  margin-top: var(--space-s);
+  color: var(--color-text-inverse-secondary);
 }

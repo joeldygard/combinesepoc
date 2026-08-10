@@ -1,6 +1,7 @@
 import SiteHeader from './components/layout/SiteHeader'
 import SiteFooter from './components/layout/SiteFooter'
 import Hero from './components/home/Hero'
+import ReadinessSection from './components/home/ReadinessSection'
 import PlatformSection from './components/home/PlatformSection'
 import ExperienceSection from './components/home/ExperienceSection'
 import SelectedWork from './components/home/SelectedWork'
@@ -8,9 +9,9 @@ import FinalCta from './components/home/FinalCta'
 import DialsLab from './components/DialsLab'
 
 /**
- * The homepage, as four beats and a close:
+ * The homepage, as five beats and a close:
  *
- *   hero → what you inherit → how long we have done this → highlights → contact
+ *   hero → prepared path → reusable foundation → accumulated practice → proof → contact
  *
  * Deliberately shorter than the brief's eight sections. Leading with proof read
  * as boasting, and explaining the system path, every capability and the article
@@ -18,7 +19,7 @@ import DialsLab from './components/DialsLab'
  * combine.se/areas-of-expertise, /cases and /edge, and the page links out to
  * them instead of summarising them.
  *
- * Field rhythm: dark hero → plum → white → off-white → black.
+ * Field rhythm: dark hero → white → plum → white → off-white → black.
  */
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
 
       <main id="main">
         <Hero />
+        <ReadinessSection />
         <PlatformSection />
         <ExperienceSection />
         <SelectedWork />

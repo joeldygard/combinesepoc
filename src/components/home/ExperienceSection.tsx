@@ -4,12 +4,13 @@ import { useEnterOnce } from '../../lib/motion'
 import './ExperienceSection.css'
 
 /**
- * The longevity beat: how long Combine has been doing this, and which
- * disciplines sit under one roof. It ends in links out rather than trying to
- * explain each discipline on the homepage.
+ * Company history is presented as inputs to the delivery method, not as an
+ * awards wall. The labels on each practice tie accumulated judgement back to a
+ * concrete part of the product path.
  */
 export default function ExperienceSection() {
   const { ref, shown } = useEnterOnce<HTMLDivElement>()
+
   return (
     <section
       className="section field-default"
@@ -34,29 +35,34 @@ export default function ExperienceSection() {
             ))}
           </dl>
 
-          <ul className="exp__disciplines">
-            {experience.disciplines.map((d) => (
-              <li className="exp__discipline" key={d.id}>
-                <h3 className="u-h4">
-                  <a href={d.href} target="_blank" rel="noreferrer">
-                    {d.title}
-                  </a>
-                </h3>
-                <p className="u-body u-secondary">{d.detail}</p>
+          <ol className="exp__practices">
+            {experience.practices.map((practice) => (
+              <li className="exp__practice" key={practice.id}>
+                <div className="exp__practice-head">
+                  <p className="u-mono exp__index">{practice.index}</p>
+                  <p className="u-mono exp__destination">
+                    Carried into <span>{practice.carriedInto}</span>
+                  </p>
+                </div>
+                <h3 className="u-h4">{practice.title}</h3>
+                <p className="u-body u-secondary">{practice.detail}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="exp__disciplines">
+          <p className="u-eyebrow exp__disciplines-label">One integrated team</p>
+          <ul>
+            {experience.disciplines.map((discipline) => (
+              <li key={discipline.href}>
+                <a href={discipline.href} target="_blank" rel="noreferrer">
+                  {discipline.label}
+                </a>
               </li>
             ))}
           </ul>
         </div>
-
-        <ul className="exp__links">
-          {experience.links.map((link) => (
-            <li key={link.href}>
-              <a href={link.href} target="_blank" rel="noreferrer">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   )

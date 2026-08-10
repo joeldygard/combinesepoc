@@ -34,6 +34,9 @@ function SecondaryCase({ study }: { study: CaseStudy }) {
             </span>
           </p>
         )}
+        {!study.result && study.resultLabel && (
+          <p className="u-mono work__outcome">{study.resultLabel}</p>
+        )}
         <h3 className="u-h4">{study.title}</h3>
         <p className="u-body u-secondary">{study.summary}</p>
         {study.client && <p className="u-mono work__client">{study.client}</p>}
@@ -48,7 +51,12 @@ export default function SelectedWork() {
   return (
     <section className="section field-subtle" id="work" aria-labelledby="work-heading">
       <div className="container">
-        <SectionIntro id="work-heading" eyebrow={work.eyebrow} heading={work.heading} />
+        <SectionIntro
+          id="work-heading"
+          eyebrow={work.eyebrow}
+          heading={work.heading}
+          intro={work.support}
+        />
 
         <div ref={ref} className={`work enter${shown ? ' is-in' : ''}`}>
           <article className="work__featured">

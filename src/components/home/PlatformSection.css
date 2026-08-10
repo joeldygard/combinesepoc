@@ -4,109 +4,151 @@
   margin-top: var(--space-2xl);
 }
 
-@media (min-width: 64rem) {
-  .plat__body {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    gap: var(--space-2xl);
-    align-items: start;
-  }
+.plat__foundations {
+  display: grid;
+  border-block: 1px solid var(--color-border-inverse);
 }
 
-.plat__aside {
+.plat__foundation {
   display: grid;
   gap: var(--space-m);
   align-content: start;
+  padding-block: var(--space-l);
 }
 
-.plat__stack-wrap {
-  align-self: start;
+.plat__foundation + .plat__foundation {
+  border-top: 1px solid var(--color-border-inverse);
 }
 
-.plat__stack-heading {
-  color: var(--color-plum-200);
-}
-
-/* ── The stack ───────────────────────────────────────────────────────────── */
-.plat__stack {
-  display: grid;
-  gap: 0;
-  margin-top: var(--space-m);
-  counter-reset: layer;
-}
-
-.plat__layer {
-  position: relative;
-  padding: var(--space-s) var(--space-m);
-  border: 1px solid var(--color-border-inverse);
-  background: rgba(38, 11, 21, 0.34);
-}
-
-/* Direction indicator between layers. Decorative; the list order carries it. */
-.plat__layer + .plat__layer {
-  margin-top: 1.35rem;
-}
-
-.plat__layer + .plat__layer::before {
-  content: '';
-  position: absolute;
-  top: -1.35rem;
-  left: var(--space-m);
-  width: 1px;
-  height: 1.35rem;
-  background: var(--color-plum-200);
-}
-
-.plat__layer + .plat__layer::after {
-  content: '';
-  position: absolute;
-  top: -0.42rem;
-  left: calc(var(--space-m) - 3px);
-  width: 7px;
-  height: 7px;
-  background: var(--color-plum-200);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-}
-
-/* Combine's own layers are emphasised; the rest are context. */
-.plat__layer--owned {
-  background: rgba(245, 221, 229, 0.14);
-  border-color: var(--color-signal);
-  /* Image crop: the one clipped corner from the logo geometry. */
-  clip-path: var(--clip-corner);
-  --clip-size: 0.85rem;
-}
-
-.plat__layer-label {
+.plat__foundation-head {
   display: flex;
   align-items: center;
-  gap: var(--space-s);
-  flex-wrap: wrap;
-  color: #ffffff;
+  gap: var(--space-m);
 }
 
-.plat__layer--owned .plat__layer-label {
-  color: var(--color-signal);
-}
-
-/* State is not colour-only: the owned layers also carry a text badge. */
-.plat__badge {
-  padding: 0.1rem 0.4rem;
-  font-size: 0.625rem;
-  letter-spacing: 0.12em;
+.plat__number {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  place-items: center;
   color: var(--color-plum-900);
   background: var(--color-signal);
 }
 
-.plat__layer-parts {
-  margin-top: 0.2rem;
+.plat__role {
+  color: var(--color-plum-100);
+}
+
+.plat__parts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-m);
+  margin-top: auto;
+  padding-top: var(--space-s);
   color: var(--color-text-inverse-secondary);
+}
+
+.plat__parts li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-m);
+}
+
+.plat__parts li:not(:last-child)::after {
+  content: '';
+  width: 0.28rem;
+  height: 0.28rem;
+  background: var(--color-signal);
+  transform: rotate(45deg);
+}
+
+.plat__specific {
+  position: relative;
+  display: grid;
+  gap: var(--space-m);
+  align-content: start;
+  padding: var(--space-l);
+  color: var(--color-text-primary);
+  background: var(--color-plum-50);
+  clip-path: var(--clip-corner);
+  --clip-size: 1.25rem;
+}
+
+.plat__specific::before {
+  content: '';
+  width: 2.5rem;
+  height: 2px;
+  background: var(--color-action-primary);
+}
+
+.plat__specific-eyebrow {
+  color: var(--color-action-primary);
+}
+
+.plat__specific .u-secondary {
+  color: var(--color-text-secondary-on-subtle);
+}
+
+.plat__specific-parts {
+  display: grid;
+  gap: var(--space-s);
+  margin-top: var(--space-s);
+}
+
+.plat__specific-parts li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.plat__specific-parts li::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  flex: none;
+  border: 1px solid var(--color-action-primary);
+}
+
+.plat__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);
+  margin-top: var(--space-xl);
 }
 
 .plat__trace {
-  max-width: 34rem;
+  max-width: 40rem;
   color: var(--color-text-inverse-secondary);
 }
 
-.plat__cta {
-  margin-top: var(--space-l);
+@media (min-width: 48rem) {
+  .plat__foundations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plat__foundation {
+    padding: var(--space-l);
+  }
+
+  .plat__foundation:first-child {
+    padding-inline-start: 0;
+  }
+
+  .plat__foundation + .plat__foundation {
+    border-top: 0;
+    border-left: 1px solid var(--color-border-inverse);
+  }
+}
+
+@media (min-width: 64rem) {
+  .plat__body {
+    grid-template-columns: minmax(0, 8fr) minmax(18rem, 4fr);
+    gap: var(--space-2xl);
+    align-items: stretch;
+  }
 }

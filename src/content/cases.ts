@@ -34,6 +34,30 @@ export const cases: CaseStudy[] = [
     },
   },
   {
+    // redemptor.se — public product description; Combine contribution is internal.
+    title: 'Track measurement moved from the machine into one field workflow.',
+    slug: 'redemptor-track-measurement',
+    summary:
+      'A connected system for loaded track-geometry measurement brings machine control, sensor acquisition and the operator interface together at the point of work, supporting a direct route from a completed track job to inspection material.',
+    client: 'Redemptor',
+    industries: ['Rail infrastructure'],
+    capabilities: ['Control systems', 'Sensor integration', 'Operator interface'],
+    resultLabel: 'Measurement captured at the point of work',
+    tags: ['CONTROL SYSTEMS', 'SENSOR INTEGRATION', 'OPERATOR INTERFACE'],
+    featured: false,
+    featuredOrder: 2,
+    hero: {
+      kind: 'svg-standin',
+      standin: 'rail-measurement',
+      intent:
+        'Rail measurement vehicle with track geometry sensors, live measurement traces and a field report',
+    },
+    seo: {
+      description:
+        'A field system connecting track measurement, machine control, sensor acquisition and the operator workflow.',
+    },
+  },
+  {
     // combine.se/blog/sewage-system-management-what-the-data-reveals
     title: 'Existing pump-station data turned into operational indicators.',
     slug: 'pump-station-indicators',
@@ -46,7 +70,7 @@ export const cases: CaseStudy[] = [
     resultLabel: 'measurements analyzed',
     tags: ['SENSOR DATA', 'PHYSICAL MODELLING', 'REAL-TIME ANALYSIS'],
     featured: false,
-    featuredOrder: 2,
+    featuredOrder: 3,
     hero: {
       kind: 'svg-standin',
       standin: 'flow-network',
@@ -57,31 +81,6 @@ export const cases: CaseStudy[] = [
     seo: {
       description:
         'Flow estimation, pump-efficiency tracking, data-quality monitoring and early overflow warning from existing pump-station signals.',
-    },
-  },
-  {
-    // combine.se/blog/the-foundations-for-ai-at-sea-from-data-to-decisions
-    title: 'Historical cargo operations used to support new loading plans.',
-    slug: 'acht-cargo-planning',
-    summary:
-      "Combine developed a proof-of-concept model that retrieves relevant historical cargo plans and recommends them as starting points for new operations. An API connected the model to Kockumation's Loadmaster X5, with an interface designed around officers' existing planning workflow and tested in a maritime simulator.",
-    client: 'ACHT 2.0 — Trafikverket, RISE, Kockumation',
-    industries: ['Maritime'],
-    capabilities: ['Decision support', 'API integration', 'Data modelling'],
-    resultLabel: 'Tested with bridge officers in simulator',
-    tags: ['MARITIME', 'API INTEGRATION', 'DECISION SUPPORT'],
-    featured: false,
-    featuredOrder: 3,
-    hero: {
-      kind: 'svg-standin',
-      standin: 'vessel',
-      intent:
-        'Vessel cross-section with tank blocks, pump and valve routes, and an API output panel',
-    },
-    publishedAt: '2026-03-11',
-    seo: {
-      description:
-        "A proof-of-concept cargo-planning model connected to Kockumation's Loadmaster X5 and tested with bridge officers in a simulator.",
     },
   },
 ]

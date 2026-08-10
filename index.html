@@ -11,6 +11,10 @@
     />
     <link rel="canonical" href="https://combine.se/" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
+    <!-- Explicit, so Vite rewrites it for the /<repo>/ base path a GitHub Pages
+         project site is served from; without it the browser asks for /favicon.ico
+         at the domain root and gets nothing. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#0b0b0d" />
 
     <meta property="og:type" content="website" />

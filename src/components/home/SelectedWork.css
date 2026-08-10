@@ -52,6 +52,11 @@
   font-weight: var(--weight-body);
 }
 
+.work__outcome {
+  color: var(--color-action-primary);
+  text-transform: uppercase;
+}
+
 .work__client {
   color: var(--color-text-secondary-on-subtle);
 }

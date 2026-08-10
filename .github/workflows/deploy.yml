@@ -1,0 +1,53 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, master, poc]
+  workflow_dispatch:
+
+# deploy-pages needs pages+id-token; contents:read is enough for checkout.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time, and don't bother finishing a run that a newer push
+# has already superseded.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # GITHUB_REPOSITORY gives vite.config.ts the /<repo>/ base path.
+      # VITE_NOINDEX keeps the preview out of search results.
+      - run: npm run build
+        env:
+          VITE_NOINDEX: '1'
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

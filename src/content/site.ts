@@ -1,4 +1,4 @@
-import type { NavItem, StackLayer } from './types'
+import type { NavItem } from './types'
 
 /*
  * All homepage copy lives here, not scattered through components.
@@ -71,88 +71,89 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
 ]
 
 export const hero = {
-  headline: 'Build intelligence into the system — not beside it.',
+  headline: 'Build intelligence into the system, not around it.',
   support:
     'We combine control engineering, data science and production software to move from raw operational data to tools people can rely on.',
   primaryCta: { label: 'See our work', href: '#work' },
   secondaryCta: { label: 'Talk to an engineer', href: '#contact' },
 } as const
 
-export const platform = {
-  eyebrow: 'WHAT YOU INHERIT',
-  heading: 'The pipeline is ready. You bring the data.',
+export const readiness = {
+  eyebrow: 'FROM SOURCE TO USE',
+  heading: 'Your data has somewhere to go.',
   support:
-    'Your data flows through Combine\'s modular pipeline with validation, auditability, and reproducibility built in to a bespoke solution for your system.',
-
-  stack: [
-
-    /* 
-    "WE'RE READY"
-    I want the first section to signal that the whole system is ready for the customer, all that's missing is the data.
-    */
-
+    'A defined route from source systems to an operational product means the work can begin with your context instead of an empty architecture.',
+  input: {
+    label: 'Customer input',
+    title: 'Operational data',
+    detail: 'Sensors · Logs · Video · Documents · System records',
+  },
+  stages: [
     {
-      id: 'data',
-      label: 'YOUR OPERATIONAL DATA',
-      parts: ['Sensors', 'Logs', 'Video', 'Documents', 'System records'],
+      id: 'process',
+      index: '01',
+      title: 'Process with confidence',
+      detail: 'Ingest, validate and preserve the history of every run.',
     },
+    {
+      id: 'understand',
+      index: '02',
+      title: 'Apply system knowledge',
+      detail: 'Models, rules, simulation and optimization shaped to the operation.',
+    },
+    {
+      id: 'connect',
+      index: '03',
+      title: 'Connect the product',
+      detail: 'Services, APIs, identity and interface foundations working together.',
+    },
+    {
+      id: 'operate',
+      index: '04',
+      title: 'Put it in people’s hands',
+      detail: 'Monitoring, analysis and decisions in the daily workflow.',
+    },
+  ],
+  closing:
+    'The path is established; the valuable work is adapting it to the system, decisions and people around your data.',
+} as const
 
-    /*
-    "WE'RE FAST"
-    The second section gets into what makes Combine's pipeline fast: Accelerator and CTP
-    */
-
+export const platform = {
+  eyebrow: 'ACCELERATOR + CTP',
+  heading: 'A shorter route through the repeatable work.',
+  support:
+    'Two reusable engineering foundations carry the delivery machinery while the model, integration and workflow are shaped around your operation.',
+  foundations: [
     {
       id: 'accelerator',
-      label: 'ACCELERATOR',
+      index: '01',
+      title: 'Accelerator',
+      role: 'Data and model execution',
+      detail:
+        'A consistent route through ingestion and processing, with the information needed to inspect and reproduce a result.',
       parts: ['Ingest', 'Validate', 'Process', 'Record', 'Reproduce'],
-      owned: true,
     },
-
-    /*
-    "BECAUSE WE'RE EXPERIENCED"
-    The third section is about the experience Combine has in building systems that work, and how that experience is built into the pipeline.
-    */
-
-    {
-      id: 'logic',
-      label: 'PROJECT LOGIC',
-      parts: ['Models', 'Rules', 'Simulation', 'Optimization'],
-    },
-
-    /*
-    "JUST LOOK AT OUR RESULTS"
-    The final sales section is about the results Combine has achieved for its customers in the past; Ocean Data, Redemptor, and Smart Water. 
-    */
     {
       id: 'ctp',
-      label: 'COMBINE TECHNOLOGY PLATFORM',
-      parts: ['APIs', 'Authentication', 'Dashboards', 'Reusable UI components'],
-      owned: true,
+      index: '02',
+      title: 'CTP',
+      role: 'Product and integration foundation',
+      detail:
+        'Established building blocks for the services and interfaces that turn project logic into a maintainable product.',
+      parts: ['APIs', 'Identity', 'Dashboards', 'UI foundations'],
     },
-    /* 
-    "COME JOIN US ON THE EDGE"
-    Call to action.
-    */
-    {
-      id: 'application',
-      label: 'YOUR APPLICATION',
-      parts: ['Monitoring', 'Analysis', 'Decisions', 'Operational workflows'],
-    },
-  ] satisfies StackLayer[],
-
-  /*
-   * Traceability is a property of the processing layer, not a pipeline stage.
-   * Worded as inspectable and reproducible rather than "auditable", which would
-   * imply formal compliance certification.
-   */
+  ],
+  specific: {
+    eyebrow: 'SHAPED FOR EACH OPERATION',
+    heading: 'The parts that should be bespoke stay bespoke.',
+    detail:
+      'System models, rules, integrations and the working interface are developed around the customer’s constraints.',
+    parts: ['Models', 'Rules', 'Simulation', 'Optimization', 'Operational workflows'],
+  },
   traceability:
-    'Each run records its inputs, configuration, processing steps and outputs, so a result can be inspected and reproduced later.',
-
-  closing:
-    'Only the two middle-and-outer layers are ours to reuse. The model, the integration and the workflow are yours, and they are where the project time goes.',
+    'Inputs, configuration, processing steps and outputs remain connected, so a result can be inspected and reproduced later.',
   cta: {
-    label: 'How the platform works',
+    label: 'Explore the delivery platform',
     href: 'https://combine.se/blog/combine-technology-platform-the-way-to-quicker-and-better-maintained-projects/',
   },
 } as const
@@ -165,57 +166,72 @@ export const platform = {
  * adapted from combine.se's own wording for each discipline.
  */
 export const experience = {
-  eyebrow: 'SINCE 2002',
-  heading: 'Two decades of systems that had to keep running.',
+  eyebrow: 'BUILT INTO THE METHOD',
+  heading: 'What we learn in one demanding system strengthens the next.',
   support:
-    'Combine has worked where control engineering, data science and embedded software meet since 2002. Sixty engineers in Göteborg — and the people who model the physical behaviour are the ones who write the production code.',
+    'Since 2002, Combine has worked where control engineering, data science and embedded software meet. That accumulated judgement is carried forward in the checks, conventions and production foundations used on every build.',
   facts: [
     { value: '2002', label: 'founded' },
     { value: '60', label: 'engineers' },
     { value: 'Göteborg', label: 'one office' },
   ],
+  practices: [
+    {
+      id: 'behaviour',
+      index: '01',
+      title: 'Begin with physical behaviour',
+      detail:
+        'Constraints, failure modes and measurable behaviour define what the data and models need to represent.',
+      carriedInto: 'Project logic',
+    },
+    {
+      id: 'evidence',
+      index: '02',
+      title: 'Keep the evidence connected',
+      detail:
+        'Validation and run history make it possible to understand how an output was produced and reproduce it later.',
+      carriedInto: 'Accelerator',
+    },
+    {
+      id: 'operation',
+      index: '03',
+      title: 'Design for daily operation',
+      detail:
+        'Deployment, integration and the working interface are considered with the model—not after it.',
+      carriedInto: 'CTP + application',
+    },
+  ],
   disciplines: [
     {
-      id: 'control',
-      title: 'Control Systems',
-      detail:
-        'Scalable, future-proof solutions built on a solid understanding of the mathematical and physical properties of your system.',
+      label: 'Control systems',
       href: 'https://combine.se/control-system-solutions/',
     },
     {
-      id: 'data',
-      title: 'Data Science & AI',
-      detail:
-        'Machine learning, edge AI, data engineering, advanced analytics and visualisation — from first model to production.',
+      label: 'Data science & AI',
       href: 'https://combine.se/data-science-ai-solutions/',
     },
     {
-      id: 'embedded',
-      title: 'Embedded Systems',
-      detail:
-        'The software services needed for a complete embedded system, designed for simplicity and ease of use.',
+      label: 'Embedded systems',
       href: 'https://combine.se/embedded-systems-solutions/',
     },
-  ],
-  links: [
-    { label: 'Areas of expertise', href: 'https://combine.se/areas-of-expertise/' },
-    { label: 'Engineering notes on Edge', href: 'https://combine.se/edge/' },
-    { label: 'About Combine', href: 'https://combine.se/about-us/' },
   ] satisfies NavItem[],
 } as const
 
 export const work = {
-  eyebrow: 'SELECTED WORK',
-  heading: 'Systems we have put to work.',
+  eyebrow: 'PROVEN IN OPERATION',
+  heading: 'Different systems. Outcomes you can point to.',
+  support:
+    'Marine research, rail maintenance and wastewater operations each demanded a different solution—and the same commitment to making it useful in context.',
   cta: { label: 'See all work', href: 'https://combine.se/cases/' },
 } as const
 
 
 export const finalCta = {
-  eyebrow: 'GET IN TOUCH',
-  headline: 'Bring us the system, data or decision that needs to work better.',
+  eyebrow: 'WHAT COMES NEXT',
+  headline: 'Bring the next hard system into reach.',
   support:
-    'We can help determine what is needed—from better data and system understanding to a model, integration or complete operational application.',
-  primaryCta: { label: 'Talk to an engineer', href: 'mailto:contact@combine.se' },
-  secondary: 'contact@combine.se',
+    'Start with the operation, the data or the decision that needs to improve. We will help trace a credible path to something people can use.',
+  primaryCta: { label: 'Start a conversation', href: 'mailto:contact@combine.se' },
+  secondaryCta: { label: 'Read our engineering notes', href: 'https://combine.se/edge/' },
+  email: 'contact@combine.se',
 } as const

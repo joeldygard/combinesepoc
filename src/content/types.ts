@@ -24,7 +24,7 @@ export type ImageRef = {
   kind: 'svg-standin'
   /** Describes the intended final asset, for reviewers and for alt text. */
   intent: string
-  standin: 'ocean' | 'flow-network' | 'vessel'
+  standin: 'ocean' | 'flow-network' | 'rail-measurement' | 'vessel'
 }
 
 export type CaseStudy = {
@@ -40,7 +40,8 @@ export type CaseStudy = {
   featured: boolean
   featuredOrder?: number
   hero: ImageRef
-  publishedAt: string
+  /** Optional for private/internal case studies without a public publication date. */
+  publishedAt?: string
   updatedAt?: string
   seo: Seo
 }

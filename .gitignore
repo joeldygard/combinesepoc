@@ -28,3 +28,12 @@ dist-ssr
 visual-*.png
 
 /reference
+
+# Working material, not part of the site: review notes, the supplied brief,
+# screenshot output and the temporary SSR/prerender trees.
+audit-*.md
+copy-review-*.md
+*-brief.md
+Claude outputs/
+.tmp-ssr-check/
+.prerender/

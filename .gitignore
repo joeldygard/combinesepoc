@@ -26,3 +26,5 @@ dist-ssr
 # Session scratch and visual-check screenshots
 .chrome-ready/
 visual-*.png
+
+/reference

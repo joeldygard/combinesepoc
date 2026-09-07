@@ -1,5 +1,6 @@
 import { CombineLogotype } from '../CombineLogo'
 import { footerNav, site } from '../../content/site'
+import Link from '../../lib/navigation'
 import './SiteFooter.css'
 
 export default function SiteFooter() {
@@ -19,18 +20,24 @@ export default function SiteFooter() {
 
         {footerNav.map((group) => (
           <nav className="ftr__group" key={group.heading} aria-label={group.heading}>
-            <h2 className="u-eyebrow ftr__heading">{group.heading}</h2>
-            <ul>
+            {/*
+              A label for the nav, not a section heading. As an <h2> it put
+              three entries into every page's outline that outranked the real
+              content; the <nav> already carries the same text as its
+              accessible name.
+            */}
+            <p className="u-eyebrow ftr__heading">{group.heading}</p>
+            <ul role="list">
               {group.items.map((item) => (
                 <li key={item.href}>
-                  <a
+                  <Link
                     href={item.href}
                     {...(item.href.startsWith('http')
                       ? { target: '_blank', rel: 'noreferrer' }
                       : {})}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -41,8 +48,7 @@ export default function SiteFooter() {
       <div className="container container--wide">
         <hr className="rule" />
         <p className="u-small u-secondary ftr__legal">
-          © {new Date().getFullYear()} {site.name}. Proof of concept — content and
-          figures restate publicly available Combine material.
+          © {new Date().getFullYear()} {site.legalName}.
         </p>
       </div>
     </footer>

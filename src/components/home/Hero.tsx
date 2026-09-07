@@ -59,6 +59,10 @@ export default function Hero() {
 
         <p className="u-lede hero__support">{hero.support}</p>
 
+        <p className="u-h4 hero__statement">{hero.statement}</p>
+
+        <p className="u-body hero__support">{hero.body}</p>
+
         <div className="hero__actions">
           <Button href={hero.primaryCta.href} variant="primary" onDark>
             {hero.primaryCta.label}

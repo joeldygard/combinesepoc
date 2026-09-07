@@ -1,6 +1,8 @@
 import { site } from '../content/site'
 import { orderedArticles } from '../content/articles'
+import { caseBySlug } from '../content/cases'
 import { getAuthor } from '../content/authors'
+import { caseRoute, routePath } from './routes'
 
 /**
  * JSON-LD builders. Nothing here invents ratings, reviews, awards or business
@@ -15,6 +17,7 @@ export function organizationSchema() {
     '@type': 'Organization',
     '@id': absolute('/#organization'),
     name: site.name,
+    legalName: site.legalName,
     url: site.url,
     email: site.email,
     telephone: site.phone,
@@ -61,6 +64,29 @@ export function blogPostingSchema(slug: string) {
       '@type': author.kind === 'person' ? 'Person' : 'Organization',
       name: author.name,
     },
+    publisher: { '@id': absolute('/#organization') },
+  }
+}
+
+/**
+ * A case study as an Article. Nothing is invented: headline, description, dates
+ * and industries all come from the entry, and only fields it actually carries
+ * are emitted.
+ */
+export function caseStudySchema(slug: string) {
+  const entry = caseBySlug(slug)
+  if (!entry) throw new Error(`Unknown case slug: ${slug}`)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: entry.title.replace(/\.$/, ''),
+    description: entry.seo.description,
+    url: absolute(routePath(caseRoute(entry.slug))),
+    ...(entry.publishedAt ? { datePublished: entry.publishedAt } : {}),
+    ...(entry.updatedAt ? { dateModified: entry.updatedAt } : {}),
+    about: entry.industries,
+    keywords: entry.capabilities,
+    author: { '@id': absolute('/#organization') },
     publisher: { '@id': absolute('/#organization') },
   }
 }

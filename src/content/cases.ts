@@ -1,4 +1,4 @@
-import type { CaseStudy } from './types'
+import type { CaseStudy, PagedCase } from './types'
 
 /*
  * Every figure and detail below restates something Combine already publishes.
@@ -20,6 +20,7 @@ export const cases: CaseStudy[] = [
     tags: ['COMPUTER VISION', 'DATA INFRASTRUCTURE', 'RESEARCHER TOOLS'],
     featured: true,
     featuredOrder: 1,
+    hasPage: true,
     hero: {
       kind: 'svg-standin',
       standin: 'ocean',
@@ -46,6 +47,7 @@ export const cases: CaseStudy[] = [
     tags: ['CONTROL SYSTEMS', 'SENSOR INTEGRATION', 'OPERATOR INTERFACE'],
     featured: false,
     featuredOrder: 2,
+    hasPage: true,
     hero: {
       kind: 'svg-standin',
       standin: 'rail-measurement',
@@ -71,6 +73,7 @@ export const cases: CaseStudy[] = [
     tags: ['SENSOR DATA', 'PHYSICAL MODELLING', 'REAL-TIME ANALYSIS'],
     featured: false,
     featuredOrder: 3,
+    hasPage: true,
     hero: {
       kind: 'svg-standin',
       standin: 'flow-network',
@@ -81,6 +84,30 @@ export const cases: CaseStudy[] = [
     seo: {
       description:
         'Flow estimation, pump-efficiency tracking, data-quality monitoring and early overflow warning from existing pump-station signals.',
+    },
+  },
+  {
+    /*
+     * Card-only. Restates exactly what the site already published for this
+     * client and nothing more; no write-up has been approved, so `hasPage` is
+     * false, the card does not link and no route is generated.
+     */
+    title: 'Loading liquid fuel with less time in port.',
+    slug: 'acht-liquid-fuel-loading',
+    client: 'ACHT',
+    industries: ['Ports and logistics'],
+    tags: [],
+    featured: false,
+    featuredOrder: 4,
+    hasPage: false,
+    hero: {
+      kind: 'svg-standin',
+      standin: 'vessel',
+      intent:
+        'Tanker at a loading berth with flow rate, ullage and berth-occupancy readings',
+    },
+    seo: {
+      description: 'Loading liquid fuel with less time in port.',
     },
   },
 ]
@@ -95,3 +122,15 @@ export const orderedCases = [...cases].sort(
 
 export const featuredCase = orderedCases[0]
 export const secondaryCases = orderedCases.slice(1, 3)
+
+/**
+ * The only cases that become routes. Everything that enumerates project pages —
+ * the router, the prerenderer, the route shells, the sitemap — reads this list,
+ * so a case gains or loses a URL by editing content and nothing else.
+ */
+export const pagedCases: PagedCase[] = orderedCases.filter(
+  (entry): entry is PagedCase => entry.hasPage,
+)
+
+export const caseBySlug = (slug: string): PagedCase | undefined =>
+  pagedCases.find((entry) => entry.slug === slug)

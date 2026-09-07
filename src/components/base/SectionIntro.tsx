@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-import { useEnterOnce } from '../../lib/motion'
 import './SectionIntro.css'
 
 export type SectionIntroProps = {
@@ -21,12 +20,8 @@ export default function SectionIntro({
   align = 'start',
   children,
 }: SectionIntroProps) {
-  const { ref, shown } = useEnterOnce<HTMLDivElement>()
   return (
-    <div
-      ref={ref}
-      className={`sec-intro sec-intro--${align} enter${shown ? ' is-in' : ''}`}
-    >
+    <div className={`sec-intro sec-intro--${align}`}>
       {eyebrow && (
         <p className="u-eyebrow sec-intro__eyebrow">
           <span className="sec-intro__marker" aria-hidden="true" />

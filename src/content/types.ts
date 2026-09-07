@@ -27,13 +27,11 @@ export type ImageRef = {
   standin: 'ocean' | 'flow-network' | 'rail-measurement' | 'vessel'
 }
 
-export type CaseStudy = {
+type CaseStudyShared = {
   title: string
   slug: Slug
-  summary: string
   client?: string
   industries: string[]
-  capabilities: string[]
   result?: string
   resultLabel?: string
   tags: string[]
@@ -45,6 +43,32 @@ export type CaseStudy = {
   updatedAt?: string
   seo: Seo
 }
+
+/**
+ * A case that has been written up, and therefore gets its own route.
+ *
+ * The fields a detail page cannot render without are required here rather than
+ * optional, so `hasPage: true` and "actually has enough content for a page"
+ * cannot drift apart. Adding a route is a type change, not a judgement call.
+ */
+export type PagedCase = CaseStudyShared & {
+  hasPage: true
+  summary: string
+  capabilities: string[]
+}
+
+/**
+ * A case that exists as a card only: the client and the headline are public but
+ * no write-up has been approved yet. It appears in the grid, links nowhere, and
+ * never produces a route — so the site cannot grow a thin page by accident.
+ */
+export type StubCase = CaseStudyShared & {
+  hasPage: false
+  summary?: string
+  capabilities?: string[]
+}
+
+export type CaseStudy = PagedCase | StubCase
 
 export type Article = {
   title: string

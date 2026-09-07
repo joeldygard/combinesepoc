@@ -1,4 +1,5 @@
 import type { ImageRef } from '../../content/types'
+import './CaseStandin.css'
 
 /**
  * Case imagery stand-ins. Each communicates the intended final content rather

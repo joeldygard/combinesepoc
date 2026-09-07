@@ -10,9 +10,23 @@
    * The hard boundary the brief asks for: a subtly angled edge derived from the
    * logo's cut corners, so the hero ends rather than dissolving.
    */
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 2.5vw));
-  /* Pull the next field up under the angle. */
-  margin-bottom: -1px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--cant-hero)));
+}
+
+/*
+ * The cant cuts a wedge out of the hero's bottom-left, and whatever sits behind
+ * the hero shows through it — which is the page background, i.e. white. Against
+ * the white field that follows on the homepage this is invisible; against a
+ * plum or black field it reads as a white spike running along the angle.
+ *
+ * So the next section is pulled up by the cant depth and handed the same amount
+ * back as padding: its own field paints the wedge, and its content does not
+ * move. `.hero` is positioned, so it still paints above the pulled-up
+ * background and the angled edge stays crisp against it.
+ */
+.hero + .section {
+  margin-top: calc(-1 * var(--cant-hero));
+  padding-top: calc(var(--section-space) + var(--cant-hero));
 }
 
 .hero__sim {
@@ -66,9 +80,17 @@
   max-width: 51.25rem;
 }
 
+/*
+ * No max-width here: this class is worn by both a `u-lede` and a `u-body`
+ * paragraph, which want different measures. The type utility owns measure.
+ */
 .hero__support {
-  max-width: 40rem;
   color: var(--color-text-inverse-secondary);
+}
+
+.hero__statement {
+  max-width: 40rem;
+  color: var(--color-text-inverse);
 }
 
 .hero__actions {

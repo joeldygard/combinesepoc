@@ -1,48 +1,41 @@
+import { useEffect } from 'react'
 import SiteHeader from './components/layout/SiteHeader'
 import SiteFooter from './components/layout/SiteFooter'
-import Hero from './components/home/Hero'
-import ReadinessSection from './components/home/ReadinessSection'
-import PlatformSection from './components/home/PlatformSection'
-import ExperienceSection from './components/home/ExperienceSection'
-import SelectedWork from './components/home/SelectedWork'
-import FinalCta from './components/home/FinalCta'
-import DialsLab from './components/DialsLab'
+import PageForRoute from './components/pages/Pages'
+import { site } from './content/site'
+import { routeMeta, type Route } from './lib/routes'
+
+function PageMetadata({ route }: { route: Route }) {
+  useEffect(() => {
+    const metadata = routeMeta(route)
+    document.title = metadata.title
+
+    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    description?.setAttribute('content', metadata.description)
+
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    canonical?.setAttribute('href', new URL(metadata.path, site.url).toString())
+  }, [route])
+
+  return null
+}
 
 /**
- * The homepage, as five beats and a close:
- *
- *   hero → prepared path → reusable foundation → accumulated practice → proof → contact
- *
- * Deliberately shorter than the brief's eight sections. Leading with proof read
- * as boasting, and explaining the system path, every capability and the article
- * feed on one page left nothing for the rest of the site to do. Those live at
- * combine.se/areas-of-expertise, /cases and /edge, and the page links out to
- * them instead of summarising them.
- *
- * Field rhythm: dark hero → white → plum → white → off-white → black.
+ * App receives a route as data. It does not inspect window during render, so
+ * the same component tree can be called by a future static or server renderer.
  */
-export default function App() {
+export default function App({ route }: { route: Route }) {
   return (
     <>
+      <PageMetadata route={route} />
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-
-      <SiteHeader />
-
-      <main id="main">
-        <Hero />
-        <ReadinessSection />
-        <PlatformSection />
-        <ExperienceSection />
-        <SelectedWork />
-        <FinalCta />
+      <SiteHeader currentRoute={route} />
+      <main id="main" tabIndex={-1}>
+        <PageForRoute route={route} />
       </main>
-
       <SiteFooter />
-
-      {/* Development-only. Tree-shaken out of the production bundle. */}
-      {import.meta.env.DEV && <DialsLab />}
     </>
   )
 }

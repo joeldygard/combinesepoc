@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Link from '../../lib/navigation'
 import './Button.css'
 
 export type ButtonProps = {
@@ -20,7 +21,7 @@ export default function Button({
 }: ButtonProps) {
   const external = /^https?:|^mailto:|^tel:/.test(href)
   return (
-    <a
+    <Link
       className={[
         'btn',
         `btn--${variant}`,
@@ -35,6 +36,6 @@ export default function Button({
         : {})}
     >
       {children}
-    </a>
+    </Link>
   )
 }

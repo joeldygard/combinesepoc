@@ -54,9 +54,15 @@
 .hdr--detached .hdr__inner {
   max-width: 76rem;
   min-height: var(--bar-h);
-  padding-inline: 0 0.6rem;
+  /* Both ends are capped, so neither gets interior padding. */
+  padding-inline: 0;
   border-color: var(--color-border-subtle);
-  border-radius: 999px;
+  /*
+   * Rounded where the coin caps it, square where the CTA does. The bar takes
+   * the shape of whatever terminates it rather than imposing its own, so the
+   * button's clipped corner survives instead of being rounded off into a pill.
+   */
+  border-radius: 999px 0 0 999px;
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(16px) saturate(1.1);
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
@@ -159,7 +165,8 @@
 }
 
 .hdr__links a:hover::after,
-.hdr__links a:focus-visible::after {
+.hdr__links a:focus-visible::after,
+.hdr__links a.is-current::after {
   opacity: 1;
 }
 
@@ -176,7 +183,11 @@
   clip-path: var(--clip-corner);
   transition:
     background var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    color var(--duration-fast) var(--ease-out),
+    min-height var(--duration-base) var(--ease-out),
+    margin var(--duration-base) var(--ease-out),
+    padding var(--duration-base) var(--ease-out),
+    border-radius var(--duration-base) var(--ease-out);
 }
 
 .hdr__cta:hover {
@@ -184,10 +195,38 @@
   background: var(--color-paper);
 }
 
-.hdr--detached .hdr__cta:hover {
+/*
+ * Detached, the CTA hangs off the right end of the bar as its own object: the
+ * coin's height, centred on the bar so it stands proud top and bottom, and
+ * pulled past the edge by the same hair the coin is pulled past the left one.
+ * The bar squares off underneath so nothing of its own end shows through.
+ *
+ * The clipped corner is deliberately left sitting awkwardly across the bar's
+ * bottom edge. Below that edge the chamfer opens onto the page rather than onto
+ * the bar, so a small triangle of background shows through the joint — which is
+ * what makes the thing read as a device clamped onto the bar rather than a
+ * shape drawn flush with it. It is intentional; don't "fix" it. The triangle is
+ * always the overhang square (~6px), whatever --clip-size-lg is, because the
+ * cut runs at 45deg — the token changes the chamfer's reach, not the gap.
+ *
+ * It fills rather than staying outlined, because an outlined shape standing
+ * proud of the bar reads as floating rather than attached. What is left is
+ * exactly `.btn--primary` from Button.css, one size up, which is the point.
+ */
+.hdr--detached .hdr__cta {
+  min-height: var(--coin);
+  margin-block: calc((var(--bar-h) - var(--coin)) / 2);
+  margin-inline-end: calc(var(--coin) / -24);
+  padding-inline: 1.4rem;
   color: var(--color-text-inverse);
   background: var(--color-action-primary);
   border-color: var(--color-action-primary);
+  clip-path: var(--clip-corner-lg);
+}
+
+.hdr--detached .hdr__cta:hover {
+  background: var(--color-action-primary-hover);
+  border-color: var(--color-action-primary-hover);
 }
 
 .hdr__toggle {
@@ -290,7 +329,8 @@
   .hdr,
   .hdr__inner,
   .hdr__coin,
-  .hdr__symbol {
+  .hdr__symbol,
+  .hdr__cta {
     transition: none;
   }
 }

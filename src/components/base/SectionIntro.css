@@ -41,6 +41,4 @@
   background: var(--color-signal);
 }
 
-.sec-intro__lede {
-  max-width: 40rem;
-}
+/* Measure comes from `.u-lede`. */

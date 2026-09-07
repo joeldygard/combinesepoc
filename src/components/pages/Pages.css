@@ -1,0 +1,375 @@
+.pagehero {
+  position: relative;
+  overflow: hidden;
+  padding-block: 9rem var(--section-space);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--cant-page)));
+  background: var(--hero-field);
+}
+
+/*
+ * Same join as `.hero + .section` in Hero.css, at the page-hero's shallower
+ * angle. This is the one that was actually visible: on /ai-for-the-physical-world/
+ * the black page hero meets the plum stack field, and on /insights/ it meets the
+ * black final CTA — in both cases the wedge was a white spike along the cant.
+ */
+.pagehero + .section {
+  margin-top: calc(-1 * var(--cant-page));
+  padding-top: calc(var(--section-space) + var(--cant-page));
+}
+
+.pagehero::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background:
+    radial-gradient(55% 80% at 18% 48%, rgba(46, 42, 48, 0.86), transparent 72%),
+    linear-gradient(115deg, transparent 48%, rgba(140, 238, 240, 0.045));
+}
+
+.pagehero__inner {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-m);
+}
+
+.pagehero__title {
+  max-width: 52rem;
+}
+
+/* Measure comes from the type utility; see .hero__support in Hero.css. */
+.pagehero__support {
+  color: var(--color-text-inverse-secondary);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.content-block {
+  display: grid;
+  align-content: start;
+  gap: var(--space-s);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.content-block__eyebrow {
+  color: var(--color-action-primary);
+}
+
+.content-block__link {
+  margin-top: var(--space-xs);
+}
+
+.section-link {
+  margin-top: var(--space-xl);
+}
+
+.stack-list {
+  max-width: 64rem;
+  margin-top: var(--space-2xl);
+  border-top: 1px solid var(--color-border-inverse);
+}
+
+.stack-list__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xs);
+  padding-block: var(--space-m);
+  border-bottom: 1px solid var(--color-border-inverse);
+}
+
+.stack-list__name {
+  font-size: var(--step-1);
+  font-weight: var(--weight-card);
+}
+
+.stack-list__use {
+  color: var(--color-text-inverse-secondary);
+}
+
+
+.stack-list__foot {
+  margin-top: var(--space-xl);
+  color: var(--color-text-inverse-secondary);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-l);
+}
+
+.project-grid--teasers {
+  margin-top: var(--space-2xl);
+}
+
+.project-card {
+  position: relative;
+  display: grid;
+  align-content: space-between;
+  min-height: 22rem;
+  padding: var(--space-l);
+  overflow: hidden;
+  color: var(--color-text-primary);
+  background: var(--color-surface-default);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.project-card::after {
+  position: absolute;
+  right: -12%;
+  bottom: -34%;
+  width: 16rem;
+  aspect-ratio: 1;
+  content: '';
+  border: 1px solid var(--color-plum-200);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2.8rem var(--color-plum-50),
+    0 0 0 2.9rem var(--color-plum-200),
+    0 0 0 5.7rem var(--color-plum-50);
+  opacity: 0.72;
+}
+
+.project-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.project-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-m);
+}
+
+.project-card__number,
+.project-card__meta,
+.project-card__client {
+  color: var(--color-action-primary);
+}
+
+.project-card__meta {
+  max-width: 15rem;
+  text-align: right;
+}
+
+.project-card__title {
+  max-width: 26rem;
+  margin-top: var(--space-2xl);
+}
+
+.project-card__client {
+  margin-top: var(--space-m);
+}
+
+/*
+ * A linked card is clickable across its whole area while keeping exactly one
+ * anchor: the title carries the accessible name, this overlay collects clicks.
+ *
+ * The overlay must resolve against the card, so the title opts out of the
+ * blanket `position: relative` that `.project-card > *` applies — otherwise
+ * `inset: 0` would cover only the heading's own box. The title is a grid item,
+ * so it keeps its z-index regardless, which is what lifts the overlay clear of
+ * the decorative rings.
+ *
+ * The anchor keeps the global focus-visible ring, so focus stays visible
+ * without depending on :has().
+ */
+.project-card__title {
+  position: static;
+}
+
+.project-card__link::after {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  content: '';
+}
+
+.project-card--linked {
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.project-card--linked:hover {
+  border-color: var(--color-action-primary);
+}
+
+/* ── Case detail ─────────────────────────────────────────────────────────── */
+.case-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+.case-figure {
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+}
+
+.case-facts {
+  display: grid;
+  gap: var(--space-l);
+  margin: 0;
+}
+
+.case-facts__row {
+  display: grid;
+  gap: var(--space-2xs);
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.case-facts__row dd {
+  margin: 0;
+}
+
+/* The metric's unit phrase, under the figure rather than above it. */
+.case-facts__note {
+  display: block;
+  margin-top: var(--space-2xs);
+}
+
+/*
+ * auto-fit rather than a breakpoint: these are two- and three-word labels, and
+ * a 14rem floor means the track count follows the space actually available
+ * instead of a viewport width guessed in advance.
+ */
+.case-caps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-m) var(--space-l);
+  margin-top: var(--space-2xl);
+}
+
+.case-caps__item {
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl) var(--space-l);
+  margin-top: var(--space-2xl);
+}
+
+.proof-grid__metric {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-xs);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.proof-grid__metric dd {
+  margin: 0;
+}
+
+.proof-grid__metric--text dd {
+  max-width: 25rem;
+  font-size: var(--step-2);
+  font-weight: var(--weight-card);
+  line-height: 1.2;
+}
+
+.proof-grid__foot {
+  margin-top: var(--space-xl);
+}
+
+.platform-copy {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.platform-copy__item {
+  max-width: var(--text-max-body);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border-inverse);
+}
+
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+.contact-offices {
+  display: grid;
+  align-content: start;
+  gap: var(--space-l);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.contact-offices ul {
+  display: grid;
+  gap: var(--space-s);
+}
+
+@media (min-width: 42rem) {
+  .content-grid--2,
+  .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stack-list__row {
+    grid-template-columns: minmax(12rem, 18rem) 1fr;
+    align-items: baseline;
+    gap: var(--space-m);
+  }
+
+  .proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-layout {
+    grid-template-columns: minmax(0, 2fr) minmax(15rem, 1fr);
+  }
+}
+
+@media (min-width: 60rem) {
+  .content-grid--3,
+  .project-grid--teasers {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .proof-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .proof-grid--company {
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .platform-copy {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* The figure needs real width before the facts move beside it. */
+  .case-layout {
+    grid-template-columns: minmax(0, 3fr) minmax(15rem, 1fr);
+  }
+}
+
+@media (max-width: 41.9375rem) {
+  .pagehero {
+    padding-block: 7rem var(--section-space);
+  }
+
+  .project-card {
+    min-height: 18rem;
+  }
+
+  .proof-grid__metric .u-metric {
+    font-size: var(--step-3);
+  }
+}

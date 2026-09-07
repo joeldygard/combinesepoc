@@ -1,7 +1,9 @@
 import { useEffect, useId, useState } from 'react'
 import { CombineLogotype } from '../CombineLogo'
 import symbolUrl from '../../assets/combine-symbol.png'
-import { primaryNav, navCta } from '../../content/site'
+import { primaryNav, navCta, routes } from '../../content/site'
+import { routeSection, type Route } from '../../lib/routes'
+import Link from '../../lib/navigation'
 import './SiteHeader.css'
 
 /**
@@ -13,14 +15,16 @@ import './SiteHeader.css'
  * nothing. The menu markup is always in the DOM and toggled with `hidden`, so
  * the links exist without client JavaScript.
  */
-export default function SiteHeader() {
+export default function SiteHeader({ currentRoute }: { currentRoute: Route }) {
+  // A case page belongs to the Projects section, so the nav marks it there.
+  const section = routeSection(currentRoute)
   const [detached, setDetached] = useState(false)
   const [open, setOpen] = useState(false)
   const panelId = useId()
 
   useEffect(() => {
     const onScroll = () => {
-      const past = window.scrollY > window.innerHeight * 0.8
+      const past = window.scrollY > 40
       setDetached((cur) => (cur === past ? cur : past))
     }
     onScroll()
@@ -40,7 +44,11 @@ export default function SiteHeader() {
   return (
     <header className={`hdr${detached ? ' hdr--detached' : ''}`}>
       <div className="hdr__inner container container--wide">
-        <a className="hdr__brand" href="#top" aria-label="Combine, home">
+        <Link
+          className="hdr__brand"
+          href={routes.home.path}
+          aria-label="Combine, home"
+        >
           {/* Becomes the overhanging coin in the detached state. */}
           <span className="hdr__coin">
             <img
@@ -52,21 +60,34 @@ export default function SiteHeader() {
             />
           </span>
           <CombineLogotype className="hdr__logotype" label="" />
-        </a>
+        </Link>
 
         <nav className="hdr__nav" aria-label="Primary">
-          <ul className="hdr__links">
+          <ul className="hdr__links" role="list">
             {primaryNav.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <Link
+                  href={item.href}
+                  className={item.route === section ? 'is-current' : undefined}
+                  aria-current={item.route === section ? 'page' : undefined}
+                  {...(item.href.startsWith('http')
+                    ? { target: '_blank', rel: 'noreferrer' }
+                    : {})}
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
 
-        <a className="hdr__cta" href={navCta.href}>
+        <Link
+          className="hdr__cta"
+          href={navCta.href}
+          aria-current={section === navCta.route ? 'page' : undefined}
+        >
           {navCta.label}
-        </a>
+        </Link>
 
         <button
           type="button"
@@ -85,22 +106,29 @@ export default function SiteHeader() {
 
       <div className="hdr__panel" id={panelId} hidden={!open}>
         <nav className="container" aria-label="Primary, mobile">
-          <ul>
+          <ul role="list">
             {primaryNav.map((item) => (
               <li key={item.href}>
-                <a href={item.href} onClick={() => setOpen(false)}>
+                <Link
+                  href={item.href}
+                  aria-current={item.route === section ? 'page' : undefined}
+                  {...(item.href.startsWith('http')
+                    ? { target: '_blank', rel: 'noreferrer' }
+                    : {})}
+                  onClick={() => setOpen(false)}
+                >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
-              <a
+              <Link
                 className="hdr__panel-cta"
                 href={navCta.href}
                 onClick={() => setOpen(false)}
               >
                 {navCta.label}
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

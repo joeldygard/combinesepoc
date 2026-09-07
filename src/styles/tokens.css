@@ -79,7 +79,16 @@
   /* ── Layout ─────────────────────────────────────────────────────────────── */
   --content-max: 80rem;
   --content-wide: 92rem;
+  /*
+   * Two measures. Measure is a function of type size, so one number cannot
+   * serve both: 44rem is ~70 characters at --step-1 (the lede) but ~86 at
+   * --step-0 (body), well past the comfortable range. --text-max-body is the
+   * same ~70 characters measured at body size.
+   *
+   * These live on the type utilities, not on components — see typography.css.
+   */
   --text-max: 44rem;
+  --text-max-body: 36rem;
   --gutter: clamp(1.25rem, 4vw, 4rem);
   --section-space: clamp(5rem, 10vw, 10rem);
 
@@ -100,12 +109,41 @@
    * sparingly — do not apply it to everything.
    */
   --clip-size: 1rem;
+
+  /*
+   * Careful: --clip-corner below resolves var(--clip-size) HERE, at :root, and
+   * the resolved value is what inherits. Overriding --clip-size further down
+   * the tree does nothing at all — the polygon has already been substituted.
+   * An element that needs a different cut needs the polygon declared again at
+   * its own size, which is what --clip-corner-lg is for. Don't add a third
+   * without a real reason.
+   */
+  --clip-size-lg: 1.4rem;
+
+  /*
+   * Cant: the angled foot each dark hero field ends on, same 45deg family as
+   * the corner cut above. These are tokens rather than literals because the
+   * section that FOLLOWS a hero has to know the depth — it pulls itself up by
+   * exactly this much so its own field paints the wedge the cant removes.
+   * See `.hero + .section` (Hero.css) and `.pagehero + .section` (Pages.css).
+   */
+  --cant-hero: 2.5vw;
+  --cant-page: 1.6vw;
   --clip-corner: polygon(
     0 0,
     100% 0,
     100% 100%,
     var(--clip-size) 100%,
     0 calc(100% - var(--clip-size))
+  );
+
+  /* The same cut, sized for the detached header's endcap. See the note above. */
+  --clip-corner-lg: polygon(
+    0 0,
+    100% 0,
+    100% 100%,
+    var(--clip-size-lg) 100%,
+    0 calc(100% - var(--clip-size-lg))
   );
 
   --duration-fast: 140ms;

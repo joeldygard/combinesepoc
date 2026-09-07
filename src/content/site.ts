@@ -1,25 +1,110 @@
 import type { NavItem } from './types'
 
-/*
- * All homepage copy lives here, not scattered through components.
- *
- * Every figure and project detail restates something Combine already publishes;
- * see README → "What is not real" for provenance and for the few claims that
- * come from internal knowledge rather than a public page.
+export type RouteId =
+  | 'home'
+  | 'services'
+  | 'projects'
+  | 'build'
+  | 'products'
+  | 'insights'
+  | 'company'
+  | 'contact'
+
+export type RouteDefinition = {
+  id: RouteId
+  label: string
+  path: string
+  title: string
+  description: string
+}
+
+/**
+ * Route metadata is kept independent from the browser. An SSG or SSR entry
+ * point can use the same table to choose a page, title, canonical URL and
+ * navigation state without importing client-only code.
  */
+export const routes: Record<RouteId, RouteDefinition> = {
+  home: {
+    id: 'home',
+    label: 'Home',
+    path: '/',
+    title: 'Combine: AI for the physical world',
+    description:
+      'Combine builds AI for physical systems, where physics, safety and people set the requirements.',
+  },
+  services: {
+    id: 'services',
+    label: 'Services',
+    path: '/services/',
+    title: 'Services | Combine',
+    description:
+      'Fixed-price ways to assess the opportunity, audit the data and start with a complete industrial AI team.',
+  },
+  projects: {
+    id: 'projects',
+    label: 'Projects',
+    path: '/projects/',
+    title: 'Projects | Combine',
+    description:
+      'AI, control and software projects for water, ports, rail infrastructure and marine research.',
+  },
+  build: {
+    id: 'build',
+    label: 'How we build',
+    path: '/ai-for-the-physical-world/',
+    title: 'How we build AI for physical systems | Combine',
+    description:
+      'Foundation models, machine learning, control engineering and software delivered as one traceable system.',
+  },
+  products: {
+    id: 'products',
+    label: 'Products',
+    path: '/products/',
+    title: 'Products | Combine',
+    description:
+      'Software owned and built by Combine, including Sympathy for Data.',
+  },
+  insights: {
+    id: 'insights',
+    label: 'Insights',
+    path: '/insights/',
+    title: 'Engineering notes | Combine',
+    description:
+      'Engineering notes about AI, controls and safety engineering for physical systems.',
+  },
+  company: {
+    id: 'company',
+    label: 'Company',
+    path: '/company/',
+    title: 'Company | Combine',
+    description:
+      'Combine is a control engineering and AI company with offices in Göteborg, Malmö and Linköping.',
+  },
+  contact: {
+    id: 'contact',
+    label: 'Contact',
+    path: '/contact/',
+    title: 'Talk to an engineer | Combine',
+    description:
+      'Talk to a Combine engineer about the operation, data or decision that needs to improve.',
+  },
+}
 
 export const site = {
   name: 'Combine',
+  legalName: 'Combine Control Systems AB',
   url: 'https://combine.se',
   locale: 'en_GB',
   email: 'contact@combine.se',
-  phone: '+46 31 42 10 60',
+  phone: '+46 31 797 10 12',
+  careersUrl: 'https://combine.teamtailor.com/',
   address: {
     street: 'Västra Hamngatan 8',
     postalCode: '411 17',
     city: 'Göteborg',
     country: 'SE',
   },
+  offices: ['Göteborg', 'Malmö', 'Linköping'],
   founded: '2002',
   social: [
     'https://www.linkedin.com/company/combine/',
@@ -28,210 +113,219 @@ export const site = {
   ],
 } as const
 
-/*
- * Anchors point only at sections this page actually has. Everything else links
- * to the live page, so nothing here is a dead link and the homepage stays a
- * short route into the deeper site rather than a summary of all of it.
- */
-export const primaryNav: NavItem[] = [
-  { label: 'Platform', href: '#platform' },
-  { label: 'Expertise', href: 'https://combine.se/areas-of-expertise/' },
-  { label: 'Work', href: '#work' },
-  { label: 'Edge', href: 'https://combine.se/edge/' },
-  { label: 'About', href: 'https://combine.se/about-us/' },
+export const primaryNav: (NavItem & { route?: RouteId })[] = [
+  { label: 'Services', href: routes.services.path, route: 'services' },
+  { label: 'Projects', href: routes.projects.path, route: 'projects' },
+  { label: 'How we build', href: routes.build.path, route: 'build' },
+  { label: 'Products', href: routes.products.path, route: 'products' },
+  { label: 'Insights', href: routes.insights.path, route: 'insights' },
+  { label: 'Career', href: site.careersUrl },
 ]
 
-export const navCta: NavItem = { label: 'Talk to us', href: '#contact' }
+export const navCta = {
+  label: 'Talk to an engineer',
+  href: routes.contact.path,
+  route: 'contact' as const,
+}
 
-/** Career belongs in the footer, not the homepage body. */
 export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: 'Work with us',
     items: [
-      { label: 'Areas of expertise', href: 'https://combine.se/areas-of-expertise/' },
-      { label: 'Delivery platform', href: '#platform' },
-      { label: 'Selected work', href: '#work' },
+      { label: 'Services', href: routes.services.path },
+      { label: 'Projects', href: routes.projects.path },
+      { label: 'How we build', href: routes.build.path },
     ],
   },
   {
     heading: 'Company',
     items: [
-      { label: 'About', href: 'https://combine.se/about-us/' },
-      { label: 'Edge', href: 'https://combine.se/edge/' },
-      { label: 'Career', href: 'https://combine.teamtailor.com/' },
+      { label: 'Products', href: routes.products.path },
+      { label: 'Insights', href: routes.insights.path },
+      { label: 'Company', href: routes.company.path },
+      { label: 'Careers', href: site.careersUrl },
     ],
   },
   {
     heading: 'Contact',
     items: [
-      { label: 'contact@combine.se', href: 'mailto:contact@combine.se' },
-      { label: '+46 31 42 10 60', href: 'tel:+4631421060' },
+      { label: site.email, href: `mailto:${site.email}` },
+      { label: site.phone, href: 'tel:+46317971012' },
     ],
   },
 ]
 
 export const hero = {
-  headline: 'Build intelligence into the system, not around it.',
-  support:
-    'We combine control engineering, data science and production software to move from raw operational data to tools people can rely on.',
-  primaryCta: { label: 'See our work', href: '#work' },
-  secondaryCta: { label: 'Talk to an engineer', href: '#contact' },
+  headline: 'AI for the physical world',
+  support: 'Where physics, safety and people set the requirements.',
+  statement: 'We build AI for physical systems.',
+  body:
+    'For two decades we have built robust control systems for safety-critical environments in defence, automotive, medtech and critical infrastructure. Machine learning extended what we could do. Modern AI is expanding it further.',
+  primaryCta: navCta,
+  secondaryCta: { label: 'See our projects', href: routes.projects.path },
 } as const
 
-export const readiness = {
-  eyebrow: 'FROM SOURCE TO USE',
-  heading: 'Your data has somewhere to go.',
-  support:
-    'A defined route from source systems to an operational product means the work can begin with your context instead of an empty architecture.',
-  input: {
-    label: 'Customer input',
-    title: 'Operational data',
-    detail: 'Sensors · Logs · Video · Documents · System records',
+export const serviceEntryPoints = [
+  {
+    eyebrow: 'Where to start',
+    heading: "You've got the data and the mandate. What you don't have is a year.",
+    body: 'Five hires, and a year before you know whether it was worth it.',
   },
-  stages: [
-    {
-      id: 'process',
-      index: '01',
-      title: 'Process with confidence',
-      detail: 'Ingest, validate and preserve the history of every run.',
-    },
-    {
-      id: 'understand',
-      index: '02',
-      title: 'Apply system knowledge',
-      detail: 'Models, rules, simulation and optimization shaped to the operation.',
-    },
-    {
-      id: 'connect',
-      index: '03',
-      title: 'Connect the product',
-      detail: 'Services, APIs, identity and interface foundations working together.',
-    },
-    {
-      id: 'operate',
-      index: '04',
-      title: 'Put it in people’s hands',
-      detail: 'Monitoring, analysis and decisions in the daily workflow.',
-    },
-  ],
-  closing:
-    'The path is established; the valuable work is adapting it to the system, decisions and people around your data.',
-} as const
-
-export const platform = {
-  eyebrow: 'ACCELERATOR + CTP',
-  heading: 'A shorter route through the repeatable work.',
-  support:
-    'Two reusable engineering foundations carry the delivery machinery while the model, integration and workflow are shaped around your operation.',
-  foundations: [
-    {
-      id: 'accelerator',
-      index: '01',
-      title: 'Accelerator',
-      role: 'Data and model execution',
-      detail:
-        'A consistent route through ingestion and processing, with the information needed to inspect and reproduce a result.',
-      parts: ['Ingest', 'Validate', 'Process', 'Record', 'Reproduce'],
-    },
-    {
-      id: 'ctp',
-      index: '02',
-      title: 'CTP',
-      role: 'Product and integration foundation',
-      detail:
-        'Established building blocks for the services and interfaces that turn project logic into a maintainable product.',
-      parts: ['APIs', 'Identity', 'Dashboards', 'UI foundations'],
-    },
-  ],
-  specific: {
-    eyebrow: 'SHAPED FOR EACH OPERATION',
-    heading: 'The parts that should be bespoke stay bespoke.',
-    detail:
-      'System models, rules, integrations and the working interface are developed around the customer’s constraints.',
-    parts: ['Models', 'Rules', 'Simulation', 'Optimization', 'Operational workflows'],
+  {
+    eyebrow: 'From pilot to production',
+    heading: 'The pilot impressed everyone. Then it stopped there.',
+    body:
+      'We build the rest: the data plumbing, the deployment and the interface that turn a working model into something people use every day.',
   },
-  traceability:
-    'Inputs, configuration, processing steps and outputs remain connected, so a result can be inspected and reproduced later.',
-  cta: {
-    label: 'Explore the delivery platform',
-    href: 'https://combine.se/blog/combine-technology-platform-the-way-to-quicker-and-better-maintained-projects/',
+  {
+    eyebrow: 'Control and optimisation',
+    heading: "You're paying for capacity you can't reach.",
+    body:
+      'Control engineering and forecasting applied to processes that cost too much energy, run below capacity or fail without warning.',
   },
-} as const
+  {
+    eyebrow: 'Safety-critical systems',
+    heading: "Nobody will sign off on a system that can't be predicted.",
+    body:
+      'We keep the learning parts out of the path that has to behave the same way every time.',
+  },
+] as const
 
-
+export const stackLayers = [
+  {
+    name: 'Foundation models',
+    use: 'Perception, forecasting, planning',
+  },
+  {
+    name: 'Classical machine learning',
+    use: 'Anomaly detection and optimisation',
+  },
+  {
+    name: 'Control engineering',
+    use: 'Model predictive control, state estimation, adaptive control',
+  },
+  {
+    name: 'Software and systems',
+    use: 'Data engineering, embedded, PLC, integration',
+  },
+] as const
 
 /*
- * Company facts are the ones Combine publishes in its own site footer: founded
- * 2002, roughly 60 employees, HQ in Göteborg. The three area descriptions are
- * adapted from combine.se's own wording for each discipline.
+ * The project list lives in content/cases.ts now, as the normalized CaseStudy
+ * model. It was duplicated here as a flat title/client/industry triple, which
+ * is exactly the drift the note at the top of content/types.ts warns about:
+ * two sources for one dataset, and the richer one unused.
  */
-export const experience = {
-  eyebrow: 'BUILT INTO THE METHOD',
-  heading: 'What we learn in one demanding system strengthens the next.',
-  support:
-    'Since 2002, Combine has worked where control engineering, data science and embedded software meet. That accumulated judgement is carried forward in the checks, conventions and production foundations used on every build.',
-  facts: [
-    { value: '2002', label: 'founded' },
-    { value: '60', label: 'engineers' },
-    { value: 'Göteborg', label: 'one office' },
+
+export const proof = {
+  eyebrow: "What you're hiring",
+  metrics: [
+    { value: '~40', label: 'Engineers', text: false },
+    { value: '~20%', label: 'Hold a PhD', text: false },
+    { value: '2002', label: 'Founded', text: false },
+    // Not a number, so it is not set as one. See .proof-grid__metric--text.
+    { value: '9001 · 14001', label: 'ISO certified', text: true },
   ],
-  practices: [
-    {
-      id: 'behaviour',
-      index: '01',
-      title: 'Begin with physical behaviour',
-      detail:
-        'Constraints, failure modes and measurable behaviour define what the data and models need to represent.',
-      carriedInto: 'Project logic',
-    },
-    {
-      id: 'evidence',
-      index: '02',
-      title: 'Keep the evidence connected',
-      detail:
-        'Validation and run history make it possible to understand how an output was produced and reproduce it later.',
-      carriedInto: 'Accelerator',
-    },
-    {
-      id: 'operation',
-      index: '03',
-      title: 'Design for daily operation',
-      detail:
-        'Deployment, integration and the working interface are considered with the model—not after it.',
-      carriedInto: 'CTP + application',
-    },
-  ],
-  disciplines: [
-    {
-      label: 'Control systems',
-      href: 'https://combine.se/control-system-solutions/',
-    },
-    {
-      label: 'Data science & AI',
-      href: 'https://combine.se/data-science-ai-solutions/',
-    },
-    {
-      label: 'Embedded systems',
-      href: 'https://combine.se/embedded-systems-solutions/',
-    },
-  ] satisfies NavItem[],
+  infrastructure:
+    'On-premise compute for model training, including air-gapped environments.',
 } as const
 
-export const work = {
-  eyebrow: 'PROVEN IN OPERATION',
-  heading: 'Different systems. Outcomes you can point to.',
-  support:
-    'Marine research, rail maintenance and wastewater operations each demanded a different solution—and the same commitment to making it useful in context.',
-  cta: { label: 'See all work', href: 'https://combine.se/cases/' },
+export const services = {
+  headline: 'We start small, and on a fixed price.',
+  startingPoint: {
+    eyebrow: 'Where to start',
+    heading: "You've got the data and the mandate. What you don't have is a year.",
+    body:
+      "Five hires, and a year before you know whether it was worth it. Starting with us takes one decision, and you can stop after the audit.",
+  },
+  starts: [
+    {
+      eyebrow: 'Workshop · fixed price',
+      title: 'A day in your office.',
+      body:
+        "AI for decision makers: what AI is, what your data allows, and what you don't need to do yourselves.",
+    },
+    {
+      eyebrow: 'Audit · fixed price',
+      title: 'Before you commit to anything.',
+      body:
+        "A data audit: what you have, what's missing, and whether it's worth continuing.",
+    },
+    {
+      eyebrow: 'Embedded team',
+      title: 'Nothing to recruit.',
+      body:
+        'The AI Excellence Team arrives with every role and the infrastructure already in place, so there is no function to build before the work can start.',
+    },
+  ],
+  engagements: [
+    {
+      title: 'Projects and partnerships',
+      body:
+        'We take responsibility for the outcome, from a defined scope to a long-term development partnership.',
+    },
+    {
+      title: 'Engineers in your team',
+      body:
+        'Senior specialists working inside your organisation, on your systems and under your process.',
+    },
+  ],
 } as const
 
+export const build = {
+  headline: 'Most AI works with text and images.',
+  support: 'Ours works with pumps, vehicles, production lines and power.',
+  intro:
+    "The difference is not the model. It's everything underneath it: the sensors it reads, the controller it hands off to, and the physical limits neither may cross.",
+  origin: {
+    eyebrow: 'Where we come from',
+    heading: 'We added AI to a control engineering company, not the other way round.',
+    body:
+      'Two decades in defence, automotive, medtech and critical infrastructure, where a wrong output has a physical consequence.',
+  },
+  traceability: {
+    eyebrow: 'Traceability',
+    heading: 'The answer has to exist inside the system.',
+    body:
+      'Inputs, configuration, model versions and outputs stay connected, so a result from two years ago can be found and repeated.',
+  },
+  platform: {
+    eyebrow: 'Combine Technology Platform',
+    heading: 'Reproducible by construction.',
+    paragraphs: [
+      "Our own platform covers the whole chain from raw data to deployed model: lineage, versioning, a model registry, experiment history and drift detection. We don't start from an empty repository.",
+      'It runs on premise on our own compute infrastructure, so training and processing stay inside hardware we control rather than on a public cloud.',
+      'Every result can be rebuilt from its inputs, which is what makes a system reviewable, maintainable and still trustworthy after the people who built it have moved on.',
+    ],
+  },
+  rarity: {
+    eyebrow: 'AI and controls',
+    heading: 'AI specialists reach for physics late. Engineering firms treat AI as an add-on.',
+    body:
+      'We work across all four layers, with roughly one in five of our engineers holding a PhD.',
+  },
+} as const
+
+export const products = {
+  headline: 'We are not only a services company. We build and own software.',
+  sympathy: {
+    eyebrow: 'Sympathy for Data',
+    heading: 'Data analysis you can hand to an auditor.',
+    body:
+      'A no-code workbench for measurement and process data where any result can be traced back and re-run years later, running on your own machines.',
+    cta: { label: 'Explore Sympathy', href: 'https://sympathyfordata.com/' },
+  },
+} as const
 
 export const finalCta = {
-  eyebrow: 'WHAT COMES NEXT',
-  headline: 'Bring the next hard system into reach.',
+  eyebrow: 'What comes next',
+  headline: "Tell us what isn't working.",
   support:
-    'Start with the operation, the data or the decision that needs to improve. We will help trace a credible path to something people can use.',
-  primaryCta: { label: 'Start a conversation', href: 'mailto:contact@combine.se' },
-  secondaryCta: { label: 'Read our engineering notes', href: 'https://combine.se/edge/' },
-  email: 'contact@combine.se',
+    'Start with the operation, the data or the decision that needs to improve.',
+  primaryCta: navCta,
+  secondaryCta: {
+    label: 'Read our engineering notes',
+    href: routes.insights.path,
+  },
+  email: site.email,
 } as const
